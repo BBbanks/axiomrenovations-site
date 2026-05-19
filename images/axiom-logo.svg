@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" role="img" aria-labelledby="logoTitle logoDesc">
+  <title id="logoTitle">Axiom Renovations logo</title>
+  <desc id="logoDesc">A stylized A and wordmark for Axiom Renovations.</desc>
+  <rect width="320" height="80" rx="16" fill="#1f1d1a" />
+  <circle cx="52" cy="40" r="22" fill="#e8c06e" />
+  <path d="M40 46 L52 18 L64 46 Z" fill="#1f1d1a" />
+  <text x="96" y="52" fill="#ffffff" font-family="Inter, sans-serif" font-size="26" font-weight="700">Axiom</text>
+</svg>

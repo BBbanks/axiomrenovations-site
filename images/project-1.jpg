@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#d4c5b9;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a89a8a;stop-opacity:1" />
+    </linearGradient>
+    <pattern id="tiles" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="30" height="30" fill="#e8d4c0"/>
+      <rect x="30" y="0" width="30" height="30" fill="#d9c4b0"/>
+      <rect x="0" y="30" width="30" height="30" fill="#d9c4b0"/>
+      <rect x="30" y="30" width="30" height="30" fill="#e8d4c0"/>
+    </pattern>
+  </defs>
+  <rect width="600" height="400" fill="url(#grad1)"/>
+  <rect x="60" y="60" width="480" height="280" fill="url(#tiles)"/>
+  <text x="300" y="200" font-family="Inter, sans-serif" font-size="48" font-weight="600" fill="#8d806d" text-anchor="middle" dy=".3em">Bathroom Remodeling</text>
+  <text x="300" y="250" font-family="Inter, sans-serif" font-size="24" fill="#5c564e" text-anchor="middle" dy=".3em">Fort Myers Project</text>
+</svg>
