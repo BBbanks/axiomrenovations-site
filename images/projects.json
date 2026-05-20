@@ -1,0 +1,45 @@
+[
+  {
+    "id": "kristen-bathroom",
+    "label": "Bathroom Remodeling",
+    "title": "Fort Myers Bathroom Update",
+    "location": "Fort Myers, FL",
+    "description": "A focused bathroom remodel completed with attention to layout, finish quality, and the way the space needs to function in daily use.",
+    "scope": "Shower update, vanity installation, trim, paint, and finish details.",
+    "result": "A cleaner, sharper, more functional bathroom that feels right in daily use.",
+    "images": [
+      "kristenbarbefore.jpg",
+      "kristenbarduring1.jpg",
+      "kristenbarduring2.jpg",
+      "kristenbarfinished.jpg"
+    ]
+  },
+  {
+    "id": "cape-coral-interior",
+    "label": "Interior Renovation",
+    "title": "Cape Coral Interior Refresh",
+    "location": "Cape Coral, FL",
+    "description": "Interior improvements carried out with the goal of making the home feel more finished, more cohesive, and more enjoyable to live in.",
+    "scope": "Drywall repair, trim work, paint coordination, flooring adjustments, and finish carpentry.",
+    "result": "A tighter, more polished interior with cleaner transitions and better overall feel.",
+    "images": [
+      "project-2.jpg",
+      "project-2.jpg",
+      "project-2.jpg"
+    ]
+  },
+  {
+    "id": "repair-finish",
+    "label": "Repair & Finish Work",
+    "title": "Detail Repair and Finish Restoration",
+    "location": "Southwest Florida",
+    "description": "Smaller detail-sensitive work completed with the same standards as larger remodels, especially where the repair needs to blend cleanly into the existing home.",
+    "scope": "Repair work, finish correction, texture blending, and detail cleanup.",
+    "result": "Work that feels integrated, intentional, and properly finished rather than patched over.",
+    "images": [
+      "project-3.jpg",
+      "project-3.jpg",
+      "project-3.jpg"
+    ]
+  }
+]
