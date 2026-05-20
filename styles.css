@@ -271,6 +271,57 @@ line-height: 1.7;
 color: #5d584f;
 }
 
+.axiom-project-gallery {
+display: grid;
+gap: 14px;
+}
+
+.axiom-project-gallery-main,
+.axiom-project-thumb {
+border-radius: 22px;
+overflow: hidden;
+}
+
+.axiom-project-gallery-main img,
+.axiom-project-thumb img {
+width: 100%;
+display: block;
+object-fit: cover;
+aspect-ratio: 4 / 3;
+}
+
+.axiom-project-thumbs {
+display: grid;
+grid-template-columns: repeat(3, minmax(0, 1fr));
+gap: 10px;
+}
+
+.axiom-project-thumb {
+background: transparent;
+border: 1px solid transparent;
+padding: 0;
+cursor: pointer;
+transition: border-color 0.18s ease, transform 0.18s ease;
+}
+
+.axiom-project-thumb:hover,
+.axiom-project-thumb.active {
+border-color: #9b6a19;
+transform: translateY(-1px);
+}
+
+@media (max-width: 760px) {
+.axiom-project-thumbs {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+}
+
+@media (max-width: 540px) {
+.axiom-project-thumbs {
+  grid-template-columns: 1fr;
+}
+}
+
 /* Grids */
 .axiom-grid-4 {
 display: grid;
