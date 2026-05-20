@@ -192,5 +192,18 @@
           </div>
     </div>
   </div>
-</body>
+    </div>
+      <script>
+        (function() {
+          const base = 'https://bbbanks.github.io/axiomrenovations-site/';
+          document.querySelectorAll('img').forEach((img) => {
+            const s = img.getAttribute('src');
+            if (!s) return;
+            if (/^(https?:)?\/\//i.test(s)) return;
+            if (s.startsWith('/')) img.src = base + s.replace(/^\//, '');
+            else img.src = base + s.replace(/^\.\//, '');
+          });
+        })();
+      </script>
+    </body>
 </html>
