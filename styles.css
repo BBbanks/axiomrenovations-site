@@ -320,7 +320,21 @@ transform: translateY(-1px);
 
 @media (max-width: 540px) {
 .axiom-project-thumbs {
-  grid-template-columns: 1fr;
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding-bottom: 6px;
+  margin-bottom: -6px;
+}
+
+.axiom-project-thumb {
+  flex: 0 0 130px;
+  width: 130px;
+}
+
+.axiom-project-thumb img {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
 }
 }
 
