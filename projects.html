@@ -121,11 +121,15 @@
           const res = await fetch(absolutePath);
           if (!res.ok) throw new Error(`Manifest load failed: ${res.status}`);
           const data = await res.json();
-          if (Array.isArray(data) && data.length) return data;
+          if (Array.isArray(data) && data.length) {
+            console.log('Loaded projects from manifest:', data[0].title);
+            return data;
+          }
         } catch (err) {
           console.warn('Could not load projects manifest, using inline fallback.', err);
         }
 
+        console.log('Using default projects:', defaultProjectData[0].title);
         return defaultProjectData;
       }
 
