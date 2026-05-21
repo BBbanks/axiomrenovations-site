@@ -115,9 +115,10 @@
       async function loadProjectData() {
         const container = document.getElementById('projects-list');
         const manifestPath = container?.dataset.manifest || 'images/projects.json';
+        const absolutePath = makeAbsolute(manifestPath);
 
         try {
-          const res = await fetch(manifestPath);
+          const res = await fetch(absolutePath);
           if (!res.ok) throw new Error(`Manifest load failed: ${res.status}`);
           const data = await res.json();
           if (Array.isArray(data) && data.length) return data;
