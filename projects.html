@@ -38,8 +38,8 @@
         </div>
       </section>
 
-      <section class="axiom-section axiom-project-list" id="projects-list">
-        <!-- Project cards will be rendered here from inline project data -->
+      <section class="axiom-section axiom-project-list" id="projects-list" data-manifest="images/projects.json">
+        <!-- Project cards will be rendered here from images/projects.json -->
       </section>
 
       <section class="axiom-section axiom-warm-band">
@@ -82,16 +82,15 @@
         return base + path.replace(/^\//, '');
       }
 
-      const projectData = [
+      const defaultProjectData = [
         {
           label: 'Interior Design & Remodel',
           title: 'Bonita Springs Bar Installation',
           location: 'Bonita Springs, FL',
           description: 'A trusted client had a useless attic access room upstairs, and we proposed a remodel to turn it into a functional bar area that would be more enjoyable and add value to the home.',
           scope: 'Before we finished installing the hardwood floors upstairs, we got the go-ahead for this transformation. The plumbing and electrical were already there for this bar, which led to the idea.',
-          result: ' It has served to be an outstanding centerpiece in the upstairs family room.',
-          mainImage: 'kristenbarfinished.jpg',
-          images: ['kristenbarbefore.jpg', 'kristenbarduring1.jpg', 'kristenbarduring2.jpg']
+          result: 'It has served to be an outstanding centerpiece in the upstairs family room.',
+          images: ['kristenbarbefore.jpg', 'kristenbarduring1.jpg', 'kristenbarduring2.jpg', 'kristenbarfinished.jpg']
         },
         {
           label: 'Interior Renovation',
@@ -100,7 +99,6 @@
           description: 'Interior improvements carried out with the goal of making the home feel more finished, more cohesive, and more enjoyable to live in.',
           scope: 'Drywall repair, trim work, paint coordination, flooring adjustments, and finish carpentry.',
           result: 'A tighter, more polished interior with cleaner transitions and better overall feel.',
-          mainImage: 'project-2.jpg',
           images: ['project-2.jpg', 'project-2.jpg', 'project-2.jpg']
         },
         {
@@ -110,12 +108,27 @@
           description: 'Smaller detail-sensitive work completed with the same standards as larger remodels, especially where the repair needs to blend cleanly into the existing home.',
           scope: 'Repair work, finish correction, texture blending, and detail cleanup.',
           result: 'Work that feels integrated, intentional, and properly finished rather than patched over.',
-          mainImage: 'project-3.jpg',
           images: ['project-3.jpg', 'project-3.jpg', 'project-3.jpg']
         }
       ];
 
-      function renderProjects() {
+      async function loadProjectData() {
+        const container = document.getElementById('projects-list');
+        const manifestPath = container?.dataset.manifest || 'images/projects.json';
+
+        try {
+          const res = await fetch(manifestPath);
+          if (!res.ok) throw new Error(`Manifest load failed: ${res.status}`);
+          const data = await res.json();
+          if (Array.isArray(data) && data.length) return data;
+        } catch (err) {
+          console.warn('Could not load projects manifest, using inline fallback.', err);
+        }
+
+        return defaultProjectData;
+      }
+
+      function renderProjects(projectData) {
         const container = document.getElementById('projects-list');
         if (!container) return;
 
@@ -130,7 +143,7 @@
           main.className = 'axiom-project-gallery-main';
           const mainImg = document.createElement('img');
           mainImg.className = 'axiom-project-main-image';
-          const mainImageUrl = makeAbsolute(p.mainImage || (p.images && p.images.length ? p.images[0] : 'placeholder.txt'));
+          const mainImageUrl = makeAbsolute(p.mainImage || (p.images && p.images.length ? p.images[p.images.length - 1] : 'placeholder.txt'));
           mainImg.src = mainImageUrl;
           mainImg.alt = p.title || '';
           main.appendChild(mainImg);
@@ -195,7 +208,12 @@
         });
       }
 
-      renderProjects();
+      async function init() {
+        const projectData = await loadProjectData();
+        renderProjects(projectData);
+      }
+
+      init();
     })();
   </script>
 </body>

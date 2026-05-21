@@ -314,12 +314,6 @@ transform: translateY(-1px);
 
 @media (max-width: 760px) {
 .axiom-project-thumbs {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-}
-
-@media (max-width: 540px) {
-.axiom-project-thumbs {
   display: flex;
   overflow-x: auto;
   gap: 10px;
@@ -329,12 +323,24 @@ transform: translateY(-1px);
 
 .axiom-project-thumb {
   flex: 0 0 130px;
-  width: 130px;
+  width: auto;
+  min-width: 120px;
 }
 
 .axiom-project-thumb img {
   aspect-ratio: 4 / 3;
   object-fit: cover;
+}
+}
+
+@media (max-width: 540px) {
+.axiom-project-thumbs {
+  gap: 8px;
+}
+
+.axiom-project-thumb {
+  flex: 0 0 120px;
+  min-width: 110px;
 }
 }
 
