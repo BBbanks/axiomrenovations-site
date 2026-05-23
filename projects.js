@@ -79,7 +79,7 @@
   async function loadProjectData() {
     const container = document.getElementById('projects-list');
     const manifestPath = container?.dataset.manifest || 'data/projects.json';
-    const absolutePath = makeAbsolute(manifestPath) + '?v='+ Date.now();
+    const absolutePath = makeAbsolute(manifestPath) + '?v=4';
 
     try {
       const res = await fetch(absolutePath);
