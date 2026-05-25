@@ -294,16 +294,19 @@ overflow: hidden;
 display: grid;
 grid-template-columns: repeat(3, minmax(0, 1fr));
 gap: 10px;
+max-height: 360px;
+overflow-y: auto;
+padding-right: 4px;
 }
 
 .axiom-project-thumb {
-  background: transparent;
-  border: 1px solid transparent;
-  padding: 0;
-  cursor: pointer;
-  transition: border-color 0.18s ease, transform 0.18s ease;
-  display: block;
+  aspect-ratio: 1 / 1;
+}
+
+.axiom-projects-thumb img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .axiom-project-thumb:hover,
