@@ -122,17 +122,24 @@
       mainImg.alt = p.title || '';
 
       main.appendChild(mainImg);
+      const caption = document.createElement('div');
+      caption.className = 'axiom-project-caption'; 
+      caption.textContent = '';
+      main.appendChild(caption);
+      caption.textContent = p.title || '';
+      main.appendChild(caption);
       gallery.appendChild(main);
 
       const thumbs = document.createElement('div');
       thumbs.className = 'axiom-project-thumbs';
 
-      (p.images || []).forEach((imgSrc, idx) => {
+      (p.images || []).forEach((imgEntry, idx) => {
+        const imageData = typeof imgEntry === 'string' ? { src: imgEntry, caption: '' } : imgEntry;
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'axiom-project-thumb' + (idx === 0 ? ' active' : '');
 
-        const abs = makeAbsolute(imgSrc);
+        const abs = makeAbsolute(imageData.src);
         btn.setAttribute('data-fullsrc', abs);
         btn.setAttribute('data-alt', p.title || '');
 
@@ -147,6 +154,7 @@
           if (mainImage) {
             mainImage.src = btn.getAttribute('data-fullsrc') || im.getAttribute('src');
             mainImage.alt = btn.getAttribute('data-alt') || im.alt || '';
+            caption.textContent = imageData.caption || '';
           }
           thumbs.querySelectorAll('.axiom-project-thumb').forEach((b) => b.classList.remove('active'));
           btn.classList.add('active');

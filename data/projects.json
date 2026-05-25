@@ -64,7 +64,9 @@
     "images": [
       
       "images/mike/mikeduring3.jpg",
-      "images/mike/mikefinished.jpg",
+     {"src": "images/mike/mikefinished.jpg",
+     "caption": "Rather than simply replacing the drywall after water damage demo, the client agreed to have this beautiful wainscoting installed, dramatically enhancing the space."
+    },
       "images/mike/mikefinished3.jpg",
       "images/mike/mikewainscoting1.jpg",
       "images/mike/mikewainscoting2.jpg",

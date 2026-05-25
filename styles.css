@@ -318,6 +318,13 @@ align-items: start;
   object-fit: cover;
 }
 
+.axiom-project-caption {
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #5c564e;
+}
+
 .axiom-project-thumb:hover,
 .axiom-project-thumb.active {
 border-color: #9b6a19;
@@ -715,6 +722,7 @@ font-size: 10px;
   min-height: 320px;
   object-fit: cover;
 }
+
 
 .axiom-project-content {
   padding: 26px;
