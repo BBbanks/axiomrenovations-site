@@ -279,16 +279,14 @@ gap: 14px;
 .axiom-project-gallery-main {
 border-radius: 22px;
 overflow: hidden;
-aspect-ratio: 4 / 3;
 background: #ece4d3;
 }
 
 .axiom-project-gallery-main img {
   width: 100%;
-  height: 100%;
-  display: block;
   height: auto;
-  object-fit: cover;
+  display: block;
+  object-fit: contain;
 }
 
 .axiom-project-thumbs {
