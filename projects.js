@@ -38,13 +38,6 @@ function normalizeImage(entry, projectTitle = '') {
    return base + path;
   }
 
-    let path = url.replace(/^\.\//, '');
-    if (!path.includes('/')) {
-      path = 'images/' + path;
-    }
-
-    return base + path.replace(/^\//, '');
-  }
 
   const defaultProjectData = [
     {
