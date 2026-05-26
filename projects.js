@@ -102,10 +102,9 @@ function normalizeImage(entry, projectTitle = '') {
   ];
 
   async function loadProjectData() {
-    const absolutePath = cacheBust(makeAbsolute(manifestPath));
     const container = document.getElementById('projects-list');
-    const manifestPath = container?.dataset.manifest || 'data/projects.json';
-    const absolutePath = ;
+    const manifestPath = container?.dataset.manifest || ('projects-list');
+    const absolutePath = cacheBust(makeAbsolute(manifestPath));
 
     try {
       const res = await fetch(absolutePath);
