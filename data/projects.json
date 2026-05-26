@@ -9,7 +9,7 @@
     "result": "It has served to be an outstanding centerpiece in the upstairs family room.",
     "images": [
      {"src": "kristenbarfinished.jpg",
-      "caption": "The finished bar area, with custom cabinetry, a new countertop, and a built-in wine fridge. The client was thrilled with how this turned out and how it transformed the space."
+      "caption": "The finished bar area sealed, with custom cabinetry, a new countertop, and a built-in wine fridge. The client was thrilled with how this turned out and how it transformed the space."
      },
      {"src": "kristenbarbefore.jpg",
       "caption": "The bar area before the remodel, showing the initial state of the space with sketch of proposed changes."
@@ -66,23 +66,34 @@
     "label": "Creative Details & Finish Work",
     "title": "Trim Details, Finish Carpentry, and Creative Solutions",
     "location": "Southwest Florida",
-    "description": "A collection of smaller but detail-sensitive projects that show how thoughtful finish work can sharpen a room, solve awkward conditions, and bring a more complete feel to the home.",
+    "description": "A collection of detail-sensitive, creative projects that show how thoughtful finish work can sharpen a room, solve awkward conditions, and bring a more complete feel to the home.",
     "scope": "This category includes trim details, finish carpentry, custom touches, and other creative work where proportion, precision, and judgment matter as much as execution.",
     "result": "The result is work that feels intentional, integrated, and built to elevate the overall character of the space.",
     "images": [
       
-      "images/mike/mikeduring3.jpg",
+      
+      {"src":"img/fireplacebefore1.jpg",
+      "caption": "During the framing process, showing the custom drawer that the mantle was mounted to"
+    },
+      {"src":"img/fireplacebefore2.jpg",
+      "caption": ""
+    },
+       { "src": "img/fireplacebefore3.jpg",
+      "caption": "After stucco and lime paint application"      
+    },
+      {"src": "fireplacefinished.jpg",
+        "caption": "The finished fireplace with mantle and TV mounted"
+      },
      {"src": "images/mike/mikefinished.jpg",
      "caption": "Rather than simply replacing the drywall after water damage demo, the client agreed to have this beautiful wainscoting installed, dramatically enhancing the space."
     },
       "img/backsplashfinished1.jpg",
+      "images/mike/mikeduring3.jpg",
       "img/mikewainscoting1.jpg",
       "img/mikewainscoting2.jpg",
       "img/woodceilingtom1.jpg",
-      "img/woodceilingwhitestainbefore.jpg",
-      "img/fireplacebefore1.jpg",
-      "img/fireplacebefore2.jpg",
-      "img/fireplacebefore3.jpg"
+      "img/woodceilingwhitestainbefore.jpg"
+    
       
 
     ]
