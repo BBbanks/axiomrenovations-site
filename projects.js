@@ -1,10 +1,42 @@
 (() => {
   const base = 'https://bbbanks.github.io/axiomrenovations-site/';
-
+function cacheBust(url) {
+  if (!url) return url;
+  return `${url}${url.includes('?') ? '&' : '?'}v=${Date.now()}`;
+}
+function normalizeImage(entry, projectTitle = '') {
+    if (typeof entry === 'string') {
+      return { src: entry, caption: '', 
+        alt: projectTitle 
+      };
+    }
+      if (entry && typeof entry === 'object') {
+        return {
+          src: entry.src || '',
+          caption: entry.caption || '',
+          alt: entry.alt || entry.caption || projectTitle
+        };
+      }
+      return {
+        src: '',
+        caption: '',
+        alt: projectTitle
+      };
+      }
+      function setCaption(captionE1, text) {
+        const clean = (text || '').trim();
+        captionE1.textContent = clean;
+        captionE1.hidden = !clean;
+      }
   function makeAbsolute(url) {
-    if (!url) return url;
-    if (/^(https?:)?\/\//i.test(url)) return url;
-    if (url.startsWith('/')) return base + url.replace(/^\//, '');
+    if (!url || typeof url !== 'string') return '';
+   if (/^(https?:)?\/\//i.test(url)) return url;
+   let path = url.replace(/^\.\//,'').replace(/^\//, '');
+   if (!path.includes('/')) {
+    path = 'images/' + path;    
+   }
+   return base + path;
+  }
 
     let path = url.replace(/^\.\//, '');
     if (!path.includes('/')) {
@@ -77,9 +109,10 @@
   ];
 
   async function loadProjectData() {
+    const absolutePath = cacheBust(makeAbsolute(manifestPath));
     const container = document.getElementById('projects-list');
     const manifestPath = container?.dataset.manifest || 'data/projects.json';
-    const absolutePath = makeAbsolute(manifestPath) + '?v='+ Date.now();
+    const absolutePath = ;
 
     try {
       const res = await fetch(absolutePath);
@@ -98,101 +131,124 @@
   }
 
   function renderProjects(projectData) {
-    const container = document.getElementById('projects-list');
-    if (!container) return;
+  const container = document.getElementById('projects-list');
+  if (!container) return;
 
-    container.innerHTML = '';
+  container.innerHTML = '';
 
-    projectData.forEach((p) => {
-      const article = document.createElement('article');
-      article.className = 'axiom-project-card';
+  projectData.forEach((p) => {
+    const article = document.createElement('article');
+    article.className = 'axiom-project-card';
 
-      const gallery = document.createElement('div');
-      gallery.className = 'axiom-project-gallery';
+    const rawImages = Array.isArray(p.images) ? p.images : [];
+    const images = rawImages
+      .map((entry) => normalizeImage(entry, p.title || 'Project image'))
+      .filter((img) => img.src);
 
-      const main = document.createElement('div');
-      main.className = 'axiom-project-gallery-main';
+    const explicitMain = p.mainImage ? normalizeImage(p.mainImage, p.title || 'Project image') : null;
+    const mainImageData = explicitMain && explicitMain.src
+      ? explicitMain
+      : images[0] || { src: '', caption: '', alt: p.title || 'Project image' };
 
-      const mainImg = document.createElement('img');
-      mainImg.className = 'axiom-project-main-image';
-      const mainImageUrl = makeAbsolute(
-        p.mainImage || (p.images && p.images.length ? p.images[p.images.length - 1] : 'placeholder.txt')
-      );
-      mainImg.src = mainImageUrl;
-      mainImg.alt = p.title || '';
+    const gallery = document.createElement('div');
+    gallery.className = 'axiom-project-gallery';
 
-      main.appendChild(mainImg);
-      const caption = document.createElement('div');
-      caption.className = 'axiom-project-caption'; 
-      caption.textContent = '';
-      main.appendChild(caption);
-      caption.textContent = p.title || '';
-      main.appendChild(caption);
-      gallery.appendChild(main);
+    const main = document.createElement('div');
+    main.className = 'axiom-project-gallery-main';
 
-      const thumbs = document.createElement('div');
-      thumbs.className = 'axiom-project-thumbs';
+    const mainImg = document.createElement('img');
+    mainImg.className = 'axiom-project-main-image';
+    mainImg.src = makeAbsolute(mainImageData.src);
+    mainImg.alt = mainImageData.alt || p.title || '';
+    mainImg.loading = 'lazy';
+    mainImg.decoding = 'async';
 
-      (p.images || []).forEach((imgEntry, idx) => {
-        const imageData = typeof imgEntry === 'string' ? { src: imgEntry, caption: '' } : imgEntry;
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'axiom-project-thumb' + (idx === 0 ? ' active' : '');
+    const caption = document.createElement('div');
+    caption.className = 'axiom-project-caption';
+    setCaption(caption, mainImageData.caption);
 
-        const abs = makeAbsolute(imageData.src);
-        btn.setAttribute('data-fullsrc', abs);
-        btn.setAttribute('data-alt', p.title || '');
+    main.appendChild(mainImg);
+    main.appendChild(caption);
+    gallery.appendChild(main);
 
-        const im = document.createElement('img');
-        im.src = abs;
-        im.alt = p.title || '';
+    const thumbs = document.createElement('div');
+    thumbs.className = 'axiom-project-thumbs';
 
-        btn.appendChild(im);
-
-        btn.addEventListener('click', () => {
-          const mainImage = gallery.querySelector('.axiom-project-main-image');
-          if (mainImage) {
-            mainImage.src = btn.getAttribute('data-fullsrc') || im.getAttribute('src');
-            mainImage.alt = btn.getAttribute('data-alt') || im.alt || '';
-            caption.textContent = imageData.caption || '';
-          }
-          thumbs.querySelectorAll('.axiom-project-thumb').forEach((b) => b.classList.remove('active'));
-          btn.classList.add('active');
-        });
-
-        thumbs.appendChild(btn);
-      });
-
-      mainImg.addEventListener('click', () => {
-        const currentMain = gallery.querySelector('.axiom-project-main-image');
-        if (currentMain) {
-          currentMain.src = mainImageUrl;
-          currentMain.alt = p.title || '';
-        }
-        thumbs.querySelectorAll('.axiom-project-thumb').forEach((b) => b.classList.remove('active'));
-      });
-
-      gallery.appendChild(thumbs);
-      article.appendChild(gallery);
-
-      const content = document.createElement('div');
-      content.className = 'axiom-project-content';
-      content.innerHTML = `
-        <div class="axiom-section-label">${p.label || ''}</div>
-        <h2 class="axiom-project-title">${p.title || ''}</h2>
-        <div class="axiom-project-location">${p.location || ''}</div>
-        <div class="axiom-project-copy"><p>${p.description || ''}</p></div>
-        <div class="axiom-project-details">
-          <div class="axiom-project-detail"><strong>Scope</strong><span>${p.scope || ''}</span></div>
-          <div class="axiom-project-detail"><strong>Result</strong><span>${p.result || ''}</span></div>
-        </div>
-      `;
-
-      article.appendChild(content);
-      container.appendChild(article);
+    let activeIndex = images.findIndex((img) => {
+      return makeAbsolute(img.src) === makeAbsolute(mainImageData.src);
     });
-  }
 
+    if (activeIndex < 0 && images.length && !explicitMain) {
+      activeIndex = 0;
+    }
+
+    function activateImage(imageData, button) {
+      mainImg.src = makeAbsolute(imageData.src);
+      mainImg.alt = imageData.alt || p.title || '';
+      setCaption(caption, imageData.caption);
+
+      thumbs.querySelectorAll('.axiom-project-thumb').forEach((thumb) => {
+        thumb.classList.remove('active');
+        thumb.setAttribute('aria-pressed', 'false');
+      });
+
+      if (button) {
+        button.classList.add('active');
+        button.setAttribute('aria-pressed', 'true');
+      }
+    }
+
+    images.forEach((imageData, idx) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'axiom-project-thumb';
+      btn.setAttribute('aria-pressed', 'false');
+
+      const labelText = imageData.caption
+        ? `View image: ${imageData.caption}`
+        : `View ${p.title || 'project'} image ${idx + 1}`;
+
+      btn.setAttribute('aria-label', labelText);
+
+      const im = document.createElement('img');
+      im.src = makeAbsolute(imageData.src);
+      im.alt = imageData.alt || p.title || '';
+      im.loading = 'lazy';
+      im.decoding = 'async';
+
+      btn.appendChild(im);
+
+      btn.addEventListener('click', () => {
+        activateImage(imageData, btn);
+      });
+
+      thumbs.appendChild(btn);
+
+      if (idx === activeIndex) {
+        activateImage(imageData, btn);
+      }
+    });
+
+    gallery.appendChild(thumbs);
+    article.appendChild(gallery);
+
+    const content = document.createElement('div');
+    content.className = 'axiom-project-content';
+    content.innerHTML = `
+      <div class="axiom-section-label">${p.label || ''}</div>
+      <h2 class="axiom-project-title">${p.title || ''}</h2>
+      <div class="axiom-project-location">${p.location || ''}</div>
+      <div class="axiom-project-copy"><p>${p.description || ''}</p></div>
+      <div class="axiom-project-details">
+        <div class="axiom-project-detail"><strong>Scope</strong><span>${p.scope || ''}</span></div>
+        <div class="axiom-project-detail"><strong>Result</strong><span>${p.result || ''}</span></div>
+      </div>
+    `;
+
+    article.appendChild(content);
+    container.appendChild(article);
+  });
+}
   async function init() {
     const projectData = await loadProjectData();
     renderProjects(projectData);
