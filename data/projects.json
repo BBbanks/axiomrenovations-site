@@ -23,16 +23,16 @@
     "scope": "These projects include shower builds, tile work, fixture installation, trim details, and bathroom finish upgrades carried out with attention to layout, durability, and daily use.",
     "result": "The result is a bathroom that feels cleaner, sharper, and better suited to the way the homeowner actually lives in the space.",
     "images": [
-      "images/bathroom/james.jpg",
-      "images/bo/bofinished2.jpg",
-      "images/bo/bofinished3.jpg",
-      "images/bathroom/brent.jpg",
-      "images/kent/kentfinished1.jpg",
-      "images/kent/kentfinished2.jpg",
-      "images/kent/kentfinished3.jpg",
-      "images/bathroom/melissa2.jpg",
-      "images/bathroom/melissa3.jpg",
-      "images/bathroom/melissa1.jpg"
+      "img/james.jpg",
+      "img/bofinished2.jpg",
+      "img/bofinished3.jpg",
+      "img/brent.jpg",
+      "img/kentfinished1.jpg",
+      "img/kentfinished2.jpg",
+      "img/kentfinished3.jpg",
+      "img/melissa2.jpg",
+      "img/melissa3.jpg",
+      "img/melissa1.jpg"
     ]
   },
   {
@@ -44,13 +44,13 @@
     "scope": "These projects include kitchen backsplashes, tile layout, edge treatment, outlet cuts, trim integration, and clean installation around existing finishes.",
     "result": "The finished work adds character and refinement to the space while holding up to close inspection in the details.",
     "images": [
-      "images/backsplash/backsplashtomfinished1.jpg",
-      "images/backsplash/backsplashgreen.jpg",
-      "images/backsplash/backsplashblack.jpg",
-      "images/backsplash/backsplashfinished2.jpg",
-      "images/backsplash/backsplashfinished1.jpg",
-      "images/backsplash/backsplashlouis2.jpg",
-      "images/backsplash/backsplashwavy1.jpg"
+      "img/backsplashtomfinished1.jpg",
+      "img/backsplash/backsplashgreen.jpg",
+      "img/backsplash/backsplashblack.jpg",
+      "img/backsplash/backsplashfinished2.jpg",
+      "img/backsplash/backsplashfinished1.jpg",
+      "img/backsplash/backsplashlouis2.jpg",
+      "img/backsplashwavy1.jpg"
     ]
   },
    {
@@ -67,19 +67,17 @@
      {"src": "images/mike/mikefinished.jpg",
      "caption": "Rather than simply replacing the drywall after water damage demo, the client agreed to have this beautiful wainscoting installed, dramatically enhancing the space."
     },
-      "images/mike/mikefinished3.jpg",
-      "images/mike/mikewainscoting1.jpg",
-      "images/mike/mikewainscoting2.jpg",
-      "images/bo/boepoxy.jpg",
-      "images/kristen/kristenfloorsfinished.jpg",
-      "images/ceilings/cofferedceiling.jpg",
-      "images/ceilings/woodceilingtom1.jpg",
-      "images/ceilings/woodceilingwhitestainbefore.jpg",
-      "images/ceilings/woodceilingwhitestain.jpg",
-      "images/fireplace/fireplacebefore1.jpg",
-      "images/fireplace/fireplacebefore2.jpg",
-      "images/fireplace/fireplacebefore3.jpg",
-      "images/fireplace/fireplacefinished.jpg"
+      "img/backsplash/backsplashfinished1.jpg",
+      "img/mikewainscoting1.jpg",
+      "img/mikewainscoting2.jpg",
+      "img/backsplashblack.jpg",
+      "img/woodceilingtom1.jpg",
+      "img/woodceilingwhitestainbefore.jpg",
+      "img/backsplashblack.jpg",
+      "img/fireplacebefore1.jpg",
+      "img/fireplacebefore2.jpg",
+      "img/fireplacebefore3.jpg",
+      "img/backsplashblack.jpg"
 
     ]
   }

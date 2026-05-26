@@ -33,7 +33,7 @@ function normalizeImage(entry, projectTitle = '') {
    if (/^(https?:)?\/\//i.test(url)) return url;
    let path = url.replace(/^\.\//,'').replace(/^\//, '');
    if (!path.includes('/')) {
-    path = 'images/' + path;    
+    path = 'img/' + path;    
    }
    return base + path;
   }
