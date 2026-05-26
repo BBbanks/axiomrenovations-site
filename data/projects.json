@@ -8,10 +8,18 @@
     "scope": "Before we finished installing the hardwood floors upstairs, we got the go-ahead for this transformation. The plumbing and electrical were already there for this bar, which led to the idea.",
     "result": "It has served to be an outstanding centerpiece in the upstairs family room.",
     "images": [
-      "kristenbarbefore.jpg",
-      "kristenbarduring1.jpg",
-      "kristenbarduring2.jpg",
-      "kristenbarfinished.jpg"
+     {"src": "kristenbarfinished.jpg",
+      "caption": "The finished bar area, with custom cabinetry, a new countertop, and a built-in wine fridge. The client was thrilled with how this turned out and how it transformed the space."
+     },
+     {"src": "kristenbarbefore.jpg",
+      "caption": "The bar area before the remodel, showing the initial state of the space with sketch of proposed changes."
+     },
+     {"src": "kristenbarduring1.jpg",
+      "caption": "The bar area during construction, showing the process."
+     },
+     {"src": "kristenbarduring2.jpg",
+      "caption": "The bar area under construction, showing the progress of the custom cabinetry and countertop installation. Trim and shelves were made from the same quartz as the countertop, cut and polished from the remnant."
+     }
     ]
   },
   {
