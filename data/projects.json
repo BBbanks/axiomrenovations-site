@@ -85,12 +85,17 @@
         "caption": "The finished fireplace with mantle and TV mounted"
       },
      {"src": "images/mike/mikefinished.jpg",
-     "caption": "Rather than simply replacing the drywall after water damage demo, the client agreed to have this beautiful wainscoting installed, dramatically enhancing the space."
+     "caption": "Rather than simply replacing the drywall after water damage demo, the client agreed to have this beautiful wainscoting installed everywhere in the living room and kitchen where the drywall was removed, dramatically enhancing the space."
     },
-      "img/backsplashfinished1.jpg",
+     
       "images/mike/mikeduring3.jpg",
       "img/mikewainscoting1.jpg",
-      "img/mikewainscoting2.jpg",
+      { "src": "img/mikewainscoting2.jpg", 
+      "caption": "In the kitchen, we installed tile wainscoting with the wooden chair rail carrying through."
+    },
+       {"src": "img/mikewainscoting3.jpg",
+        "caption": "The wainscoting in the kitchen, showing the tile wainscoting and chair rail detail."
+      },
       "img/woodceilingtom1.jpg",
       "img/woodceilingwhitestainbefore.jpg"
     
