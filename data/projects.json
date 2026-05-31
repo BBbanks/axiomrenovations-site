@@ -93,12 +93,12 @@
     {"src": "img/mikebefore2.jpg",
       "caption": "The living room before the wainscoting installation, showing the water damage demo that led to the project, which included wood floor installation as well."
     },
-     { "src": "img/mikeduring2.jpg",
-      "caption": "The wainscoting installation in progress, showing the transition to the tile wainscoting."
-    },
+    
      
       "images/mike/mikeduring3.jpg",
-     
+      { "src": "img/mikeduring2.jpg",
+      "caption": "The wainscoting installation in progress, showing the transition to the tile wainscoting."
+    },
       "img/mikewainscoting1.jpg",
       { "src": "img/mikewainscoting2.jpg", 
       "caption": "In the kitchen, we installed tile wainscoting with the wooden chair rail carrying through."
