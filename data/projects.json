@@ -55,8 +55,11 @@
       "img/backsplashtomfinished1.jpg",
       "img/backsplashgreen.jpg",
       "img/backsplashblack.jpg",
-      "img/backsplashfinished2.jpg",
       "img/backsplashfinished1.jpg",
+      {"src":"img/backsplashfinished2.jpg",
+      "caption": "After cabinet, countertop and backsplash installation, the customer wanted butcherblock installed on these cabinets that were left without a countertop, it was a great choice!"
+      },
+      
       "img/backsplashlouis2.jpg",
       "img/backsplashwavy1.jpg"
     ]
@@ -87,19 +90,32 @@
      {"src": "images/mike/mikefinished.jpg",
      "caption": "Rather than simply replacing the drywall after water damage demo, the client agreed to have this beautiful wainscoting installed everywhere in the living room and kitchen where the drywall was removed, dramatically enhancing the space."
     },
+     { "src": "img/mikeduring2.jpg",
+      "caption": "The wainscoting installation in progress, showing the transition to the tile wainscoting."},
      
       "images/mike/mikeduring3.jpg",
+     
       "img/mikewainscoting1.jpg",
       { "src": "img/mikewainscoting2.jpg", 
       "caption": "In the kitchen, we installed tile wainscoting with the wooden chair rail carrying through."
     },
        {"src": "img/mikewainscoting3.jpg",
-        "caption": "The wainscoting in the kitchen, showing the tile wainscoting and chair rail detail."
+        "caption": "The wainscoting in the kitchen after paint."
       },
-      "img/woodceilingtom1.jpg",
-      "img/woodceilingwhitestainbefore.jpg"
-    
-      
+      {"src":"img/woodceilingtom1.jpg",
+      "caption": "most of these wood ceiling installations were from lanai drywall ceilings failing after hurricanes. Rather than repairing the drywall, the customers were interested in this beautiful upgrade."},
+      { "src": "img/woodceiling1.jpg",
+        "caption": ""
+      },
+      {"src": "img/woodceilingbrentfinished.jpg",
+        "caption": "Closeup of another wood ceiling installation."
+      },
+      { "src": "img/woodceilingwhitestainbefore.jpg",
+        "caption": "Wood ceiling installation before white stain."
+      },
+      {"src":"img/woodceilingwhitestain.jpg",
+        "caption": "This customer chose a different finish, I thought it looked great."
+      }
 
     ]
   }
