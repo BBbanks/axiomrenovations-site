@@ -78,9 +78,7 @@
       {"src":"img/fireplacebefore1.jpg",
       "caption": "During the framing process, showing the custom drawer that the mantle was mounted to"
     },
-      {"src":"img/fireplacebefore2.jpg",
-      "caption": ""
-    },
+      "img/fireplacebefore2.jpg",
        { "src": "img/fireplacebefore3.jpg",
       "caption": "After stucco and lime paint application"      
     },
@@ -92,7 +90,7 @@
     },
     
      
-      "images/mike/mikeduring3.jpg",
+      "img/mikeduring3.jpg",
       {"src": "img/mikebefore2.jpg",
       "caption": "The living room before the wainscoting installation, showing the water damage demo that led to the project, which included wood floor installation as well."
     },
@@ -110,9 +108,7 @@
       {"src":"img/woodceilingtom1.jpg",
       "caption": "most of these wood ceiling installations were from lanai drywall ceilings failing after hurricanes. Rather than repairing the drywall, the customers were interested in this beautiful upgrade."
     },
-      { "src": "img/woodceiling1.jpg",
-        "caption": ""
-      },
+      "img/woodceiling1.jpg",
       {"src": "img/woodceilingbrentfinished.jpg",
         "caption": "Closeup of another wood ceiling installation."
       },

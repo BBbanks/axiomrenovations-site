@@ -1,5 +1,4 @@
 (() => {
-  const base = 'https://bbbanks.github.io/axiomrenovations-site/';
 function cacheBust(url) {
   if (!url) return url;
   return `${url}${url.includes('?') ? '&' : '?'}v=${Date.now()}`;
@@ -23,91 +22,28 @@ function normalizeImage(entry, projectTitle = '') {
         alt: projectTitle
       };
       }
-      function setCaption(captionE1, text) {
+      function setCaption(captionEl, text) {
         const clean = (text || '').trim();
-        captionE1.textContent = clean;
-        captionE1.hidden = !clean;
+        captionEl.textContent = clean;
+        captionEl.hidden = !clean;
       }
-  function makeAbsolute(url) {
+  function resolveAssetPath(url) {
     if (!url || typeof url !== 'string') return '';
    if (/^(https?:)?\/\//i.test(url)) return url;
    let path = url.replace(/^\.\//,'').replace(/^\//, '');
    if (!path.includes('/')) {
     path = 'img/' + path;    
    }
-   return base + path;
+   return path;
   }
-
-
-  const defaultProjectData = [
-    {
-      label: 'Interior Design & Remodel',
-      title: 'Bonita Springs Bar Installation',
-      location: 'Bonita Springs, FL',
-      description: 'A trusted client had a useless attic access room upstairs, and we proposed a remodel to turn it into a functional bar area that would be more enjoyable and add value to the home.',
-      scope: 'Before we finished installing the hardwood floors upstairs, we got the go-ahead for this transformation. The plumbing and electrical were already there for this bar, which led to the idea.',
-      result: 'It has served to be an outstanding centerpiece in the upstairs family room.',
-      images: [
-        'kristenbarbefore.jpg',
-        'kristenbarduring1.jpg',
-        'kristenbarduring2.jpg',
-        'kristenbarfinished.jpg'
-      ]
-    },
-    {
-      label: 'Bathroom Remodeling',
-      title: 'Selection of Shower Builds and Bathroom Remodels',
-      location: 'Southwest Florida and Athens, GA',
-      description: 'A curated selection of bathroom remodel work showing shower construction, tile installation, finish details, and the kind of clean execution that makes the finished space feel more polished and functional.',
-      scope: 'These projects include shower builds, tile work, fixture installation, trim details, and bathroom finish upgrades carried out with attention to layout, durability, and daily use.',
-      result: 'The result is a bathroom that feels cleaner, sharper, and better suited to the way the homeowner actually lives in the space.',
-      images: [
-        'images/bathroom/james.jpg',
-        'images/bathroom/brent.jpg',
-        'images/kent/kentfinished.jpg',
-        'images/kent/kentfinished1.jpg',
-        'images/bathroom/melissa2.jpg',
-        'images/bathroom/melissa3.jpg',
-        'images/bathroom/melissa1.jpg'
-      ]
-    },
-    {
-      label: 'Backsplashes & Tile Work',
-      title: 'Backsplash Installations and Tile Detail Work',
-      location: 'Southwest Florida',
-      description: 'A selection of backsplash and tile projects completed with an emphasis on alignment, clean transitions, pattern judgment, and the kind of finish quality that stands out without feeling overdone.',
-      scope: 'These projects include kitchen backsplashes, tile layout, edge treatment, outlet cuts, trim integration, and clean installation around existing finishes.',
-      result: 'The finished work adds character and refinement to the space while holding up to close inspection in the details.',
-      images: [
-        'images/backsplash/backsplash-detail-01.jpg',
-        'images/backsplash/backsplash-detail-02.jpg',
-        'images/backsplash/backsplash-detail-03.jpg',
-        'images/backsplash/backsplash-main-finished.jpg'
-      ]
-    },
-    {
-      label: 'Creative Details & Finish Work',
-      title: 'Trim Details, Finish Carpentry, and Creative Solutions',
-      location: 'Southwest Florida',
-      description: 'A collection of smaller but detail-sensitive projects that show how thoughtful finish work can sharpen a room, solve awkward conditions, and bring a more complete feel to the home.',
-      scope: 'This category includes trim details, finish carpentry, custom touches, and other creative work where proportion, precision, and judgment matter as much as execution.',
-      result: 'The result is work that feels intentional, integrated, and built to elevate the overall character of the space.',
-      images: [
-        'images/doors/trim-detail-01.jpg',
-        'images/doors/trim-detail-02.jpg',
-        'images/doors/trim-detail-03.jpg',
-        'images/doors/trim-main-finished.jpg'
-      ]
-    }
-  ];
 
   async function loadProjectData() {
     const container = document.getElementById('projects-list');
-    const manifestPath = container?.dataset.manifest || ('projects-list');
-    const absolutePath = cacheBust(makeAbsolute(manifestPath));
+    const manifestPath = container?.dataset.manifest || 'data/projects.json';
+    const manifestUrl = cacheBust(resolveAssetPath(manifestPath));
 
     try {
-      const res = await fetch(absolutePath);
+      const res = await fetch(manifestUrl);
       if (!res.ok) throw new Error(`Manifest load failed: ${res.status}`);
       const data = await res.json();
       if (Array.isArray(data) && data.length) {
@@ -115,11 +51,10 @@ function normalizeImage(entry, projectTitle = '') {
         return data;
       }
     } catch (err) {
-      console.warn('Could not load projects manifest, using inline fallback.', err);
+      console.warn('Could not load projects manifest.', err);
     }
 
-    console.log('Using default projects:', defaultProjectData[0].title);
-    return defaultProjectData;
+    return [];
   }
 
   function renderProjects(projectData) {
@@ -127,6 +62,31 @@ function normalizeImage(entry, projectTitle = '') {
   if (!container) return;
 
   container.innerHTML = '';
+
+  if (!projectData.length) {
+    const article = document.createElement('article');
+    article.className = 'axiom-project-card';
+
+    const content = document.createElement('div');
+    content.className = 'axiom-project-content';
+
+    const title = document.createElement('h2');
+    title.className = 'axiom-project-title';
+    title.textContent = 'Projects could not be loaded.';
+
+    const copy = document.createElement('div');
+    copy.className = 'axiom-project-copy';
+
+    const message = document.createElement('p');
+    message.textContent = 'Please refresh the page or check back soon.';
+
+    copy.appendChild(message);
+    content.appendChild(title);
+    content.appendChild(copy);
+    article.appendChild(content);
+    container.appendChild(article);
+    return;
+  }
 
   projectData.forEach((p) => {
     const article = document.createElement('article');
@@ -150,7 +110,7 @@ function normalizeImage(entry, projectTitle = '') {
 
     const mainImg = document.createElement('img');
     mainImg.className = 'axiom-project-main-image';
-    mainImg.src = makeAbsolute(mainImageData.src);
+    mainImg.src = resolveAssetPath(mainImageData.src);
     mainImg.alt = mainImageData.alt || p.title || '';
     mainImg.loading = 'lazy';
     mainImg.decoding = 'async';
@@ -167,7 +127,7 @@ function normalizeImage(entry, projectTitle = '') {
     thumbs.className = 'axiom-project-thumbs';
 
     let activeIndex = images.findIndex((img) => {
-      return makeAbsolute(img.src) === makeAbsolute(mainImageData.src);
+      return resolveAssetPath(img.src) === resolveAssetPath(mainImageData.src);
     });
 
     if (activeIndex < 0 && images.length && !explicitMain) {
@@ -175,7 +135,7 @@ function normalizeImage(entry, projectTitle = '') {
     }
 
     function activateImage(imageData, button) {
-      mainImg.src = makeAbsolute(imageData.src);
+      mainImg.src = resolveAssetPath(imageData.src);
       mainImg.alt = imageData.alt || p.title || '';
       setCaption(caption, imageData.caption);
 
@@ -203,7 +163,7 @@ function normalizeImage(entry, projectTitle = '') {
       btn.setAttribute('aria-label', labelText);
 
       const im = document.createElement('img');
-      im.src = makeAbsolute(imageData.src);
+      im.src = resolveAssetPath(imageData.src);
       im.alt = imageData.alt || p.title || '';
       im.loading = 'lazy';
       im.decoding = 'async';
