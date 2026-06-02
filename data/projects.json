@@ -8,39 +8,77 @@
     "scope": "Before we finished installing the hardwood floors upstairs, we got the go-ahead for this transformation. The plumbing and electrical were already there for this bar, which led to the idea.",
     "result": "It has served to be an outstanding centerpiece in the upstairs family room.",
     "images": [
-     {"src": "kristenbarfinished.jpg",
-      "caption": "The finished bar area sealed, with custom cabinetry, a new countertop, and a built-in wine fridge. The client was thrilled with how this turned out and how it transformed the space."
-     },
-     {"src": "kristenbarbefore.jpg",
-      "caption": "The bar area before the remodel, showing the initial state of the space with sketch of proposed changes."
-     },
-     {"src": "kristenbarduring1.jpg",
-      "caption": "The bar area during construction, showing the process."
-     },
-     {"src": "kristenbarduring2.jpg",
-      "caption": "The bar area under construction, showing the progress of the custom cabinetry and countertop installation. Trim and shelves were made from the same quartz as the countertop, cut and polished from the remnant."
-     }
+      {
+        "src": "img/projects/bonita-springs-custom-bar-installation-finished.jpg",
+        "alt": "Finished custom bar installation in Bonita Springs with cabinetry, countertop, and wine fridge",
+        "caption": "The finished bar area sealed, with custom cabinetry, a new countertop, and a built-in wine fridge. The client was thrilled with how this turned out and how it transformed the space."
+      },
+      {
+        "src": "img/projects/bonita-springs-attic-room-bar-remodel-before.jpg",
+        "alt": "Before photo of an attic access room planned for a custom bar remodel in Bonita Springs",
+        "caption": "The bar area before the remodel, showing the initial state of the space with sketch of proposed changes."
+      },
+      {
+        "src": "img/projects/bonita-springs-bar-remodel-cabinet-installation.jpg",
+        "alt": "Custom bar remodel in progress with cabinet installation in Bonita Springs",
+        "caption": "The bar area during construction, showing the process."
+      },
+      {
+        "src": "img/projects/bonita-springs-custom-bar-countertop-installation.jpg",
+        "alt": "Custom bar countertop and cabinetry installation in Bonita Springs",
+        "caption": "The bar area under construction, showing the progress of the custom cabinetry and countertop installation. Trim and shelves were made from the same quartz as the countertop, cut and polished from the remnant."
+      }
     ]
   },
   {
     "id": "bathroom-remodeling",
     "label": "Bathroom Remodeling",
     "title": "Selection of Shower Builds and Bathroom Remodels",
-    "location": "Southwest Florida and Athens, GA",
+    "location": "Southwest Florida",
     "description": "A curated selection of bathroom remodel work showing shower construction, tile installation, finish details, and the kind of clean execution that makes the finished space feel more polished and functional.",
     "scope": "These projects include shower builds, tile work, fixture installation, trim details, and bathroom finish upgrades carried out with attention to layout, durability, and daily use.",
     "result": "The result is a bathroom that feels cleaner, sharper, and better suited to the way the homeowner actually lives in the space.",
     "images": [
-      "img/james.jpg",
-      "img/bofinished2.jpg",
-      "img/bofinished3.jpg",
-      "img/brent.jpg",
-      "img/kentfinished1.jpg",
-      "img/kentfinished2.jpg",
-      "img/kentfinished3.jpg",
-      "img/melissa2.jpg",
-      "img/melissa3.jpg",
-      "img/melissa1.jpg"
+      {
+        "src": "img/projects/southwest-florida-bathroom-shower-remodel-finished.jpg",
+        "alt": "Finished bathroom shower remodel with tile and glass enclosure"
+      },
+      {
+        "src": "img/projects/southwest-florida-glass-shower-door-tile-remodel.jpg",
+        "alt": "Bathroom remodel with tile shower walls and sliding glass shower door"
+      },
+      {
+        "src": "img/projects/southwest-florida-bathroom-tile-shower-niche.jpg",
+        "alt": "Bathroom tile shower remodel with niche and fixture detail"
+      },
+      {
+        "src": "img/projects/southwest-florida-walk-in-shower-remodel.jpg",
+        "alt": "Walk-in shower remodel with tile walls and glass enclosure"
+      },
+      {
+        "src": "img/projects/southwest-florida-bathroom-remodel-finished-vanity.jpg",
+        "alt": "Finished bathroom remodel with vanity and walk-in shower"
+      },
+      {
+        "src": "img/projects/southwest-florida-bathroom-remodel-glass-shower.jpg",
+        "alt": "Finished bathroom remodel with glass shower door and tile walls"
+      },
+      {
+        "src": "img/projects/southwest-florida-bathroom-remodel-tile-detail.jpg",
+        "alt": "Bathroom remodel tile detail with shower shelving and mosaic floor"
+      },
+      {
+        "src": "img/projects/southwest-florida-bathroom-shower-tile-remodel.jpg",
+        "alt": "Bathroom shower tile remodel in Southwest Florida"
+      },
+      {
+        "src": "img/projects/southwest-florida-bathroom-tile-shower-shelves.jpg",
+        "alt": "Bathroom tile shower with built-in shelves in Southwest Florida"
+      },
+      {
+        "src": "img/projects/southwest-florida-bathroom-remodel-tile-finished.jpg",
+        "alt": "Finished bathroom remodel with tile shower and fixture details"
+      }
     ]
   },
   {
@@ -52,19 +90,38 @@
     "scope": "These projects include kitchen backsplashes, tile layout, edge treatment, outlet cuts, trim integration, and clean installation around existing finishes.",
     "result": "The finished work adds character and refinement to the space while holding up to close inspection in the details.",
     "images": [
-      "img/backsplashtomfinished1.jpg",
-      "img/backsplashgreen.jpg",
-      "img/backsplashblack.jpg",
-      "img/backsplashfinished1.jpg",
-      {"src":"img/backsplashfinished2.jpg",
-      "caption": "After cabinet, countertop and backsplash installation, the customer wanted butcherblock installed on these cabinets that were left without a countertop, it was a great choice!"
+      {
+        "src": "img/projects/southwest-florida-kitchen-backsplash-tile-finished.jpg",
+        "alt": "Finished kitchen backsplash tile installation in Southwest Florida"
       },
-      
-      "img/backsplashlouis2.jpg",
-      "img/backsplashwavy1.jpg"
+      {
+        "src": "img/projects/southwest-florida-green-tile-kitchen-backsplash.jpg",
+        "alt": "Green tile kitchen backsplash installation in Southwest Florida"
+      },
+      {
+        "src": "img/projects/southwest-florida-black-kitchen-backsplash.jpg",
+        "alt": "Black kitchen backsplash tile installation with white cabinetry"
+      },
+      {
+        "src": "img/projects/southwest-florida-kitchen-backsplash-cabinet-detail.jpg",
+        "alt": "Kitchen backsplash tile detail around cabinets and countertop"
+      },
+      {
+        "src": "img/projects/southwest-florida-butcher-block-counter-backsplash.jpg",
+        "alt": "Kitchen backsplash and butcher block counter installation",
+        "caption": "After cabinet, countertop and backsplash installation, the customer wanted butcherblock installed on these cabinets that were left without a countertop, it was a great choice!"
+      },
+      {
+        "src": "img/projects/southwest-florida-subway-tile-kitchen-backsplash.jpg",
+        "alt": "Subway tile kitchen backsplash installation in Southwest Florida"
+      },
+      {
+        "src": "img/projects/southwest-florida-wavy-tile-backsplash.jpg",
+        "alt": "Wavy tile backsplash installation with finished kitchen cabinetry"
+      }
     ]
   },
-   {
+  {
     "id": "creative-details",
     "label": "Creative Details & Finish Work",
     "title": "Trim Details, Finish Carpentry, and Creative Solutions",
@@ -73,53 +130,82 @@
     "scope": "This category includes trim details, finish carpentry, custom touches, and other creative work where proportion, precision, and judgment matter as much as execution.",
     "result": "The result is work that feels intentional, integrated, and built to elevate the overall character of the space.",
     "images": [
-      
-      
-      {"src":"img/fireplacebefore1.jpg",
-      "caption": "During the framing process, showing the custom drawer that the mantle was mounted to"
-    },
-      "img/fireplacebefore2.jpg",
-       { "src": "img/fireplacebefore3.jpg",
-      "caption": "After stucco and lime paint application"      
-    },
-      {"src": "fireplacefinished.jpg",
+      {
+        "src": "img/projects/southwest-florida-fireplace-wall-framing-mantel.jpg",
+        "alt": "Custom fireplace wall framing with mantel drawer detail",
+        "caption": "During the framing process, showing the custom drawer that the mantle was mounted to"
+      },
+      {
+        "src": "img/projects/southwest-florida-fireplace-wall-build-progress.jpg",
+        "alt": "Custom fireplace wall build in progress before finish work"
+      },
+      {
+        "src": "img/projects/southwest-florida-fireplace-wall-stucco-lime-paint.jpg",
+        "alt": "Custom fireplace wall after stucco and lime paint application",
+        "caption": "After stucco and lime paint application"
+      },
+      {
+        "src": "img/projects/southwest-florida-modern-fireplace-tv-wall-finished.jpg",
+        "alt": "Finished modern fireplace wall with mounted TV and mantel",
         "caption": "The finished fireplace with mantle and TV mounted"
       },
-     {"src": "images/mike/mikefinished.jpg",
-     "caption": "Rather than simply replacing the drywall after water damage demo, the client agreed to have this beautiful wainscoting installed everywhere in the living room and kitchen where the drywall was removed, dramatically enhancing the space."
-    },
-    
-     
-      "img/mikeduring3.jpg",
-      {"src": "img/mikebefore2.jpg",
-      "caption": "The living room before the wainscoting installation, showing the water damage demo that led to the project, which included wood floor installation as well."
-    },
-    
-      { "src": "img/mikeduring2.jpg",
-      "caption": "The wainscoting installation in progress, showing the transition to the tile wainscoting."
-    },
-      "img/mikewainscoting1.jpg",
-      { "src": "img/mikewainscoting2.jpg", 
-      "caption": "In the kitchen, we installed tile wainscoting with the wooden chair rail carrying through."
-    },
-       {"src": "img/mikewainscoting3.jpg",
+      {
+        "src": "img/projects/southwest-florida-wainscoting-living-room-finished.jpg",
+        "alt": "Finished living room wainscoting installation after water damage repair",
+        "caption": "Rather than simply replacing the drywall after water damage demo, the client agreed to have this beautiful wainscoting installed everywhere in the living room and kitchen where the drywall was removed, dramatically enhancing the space."
+      },
+      {
+        "src": "img/projects/southwest-florida-wainscoting-installation-progress.jpg",
+        "alt": "Wainscoting installation in progress in a Southwest Florida living room"
+      },
+      {
+        "src": "img/projects/southwest-florida-living-room-water-damage-repair-before.jpg",
+        "alt": "Living room before wainscoting installation after water damage demo",
+        "caption": "The living room before the wainscoting installation, showing the water damage demo that led to the project, which included wood floor installation as well."
+      },
+      {
+        "src": "img/projects/southwest-florida-wainscoting-tile-transition.jpg",
+        "alt": "Wainscoting installation in progress with tile transition detail",
+        "caption": "The wainscoting installation in progress, showing the transition to the tile wainscoting."
+      },
+      {
+        "src": "img/projects/southwest-florida-living-room-wainscoting-detail.jpg",
+        "alt": "Living room wainscoting detail with wood flooring"
+      },
+      {
+        "src": "img/projects/southwest-florida-kitchen-tile-wainscoting-detail.jpg",
+        "alt": "Kitchen tile wainscoting detail with wood chair rail",
+        "caption": "In the kitchen, we installed tile wainscoting with the wooden chair rail carrying through."
+      },
+      {
+        "src": "img/projects/southwest-florida-painted-kitchen-wainscoting.jpg",
+        "alt": "Painted kitchen wainscoting finish detail",
         "caption": "The wainscoting in the kitchen after paint."
       },
-      {"src":"img/woodceilingtom1.jpg",
-      "caption": "most of these wood ceiling installations were from lanai drywall ceilings failing after hurricanes. Rather than repairing the drywall, the customers were interested in this beautiful upgrade."
-    },
-      "img/woodceiling1.jpg",
-      {"src": "img/woodceilingbrentfinished.jpg",
+      {
+        "src": "img/projects/southwest-florida-lanai-wood-ceiling-installation.jpg",
+        "alt": "Lanai wood ceiling installation in Southwest Florida",
+        "caption": "Most of these wood ceiling installations were from lanai drywall ceilings failing after hurricanes. Rather than repairing the drywall, the customers were interested in this beautiful upgrade."
+      },
+      {
+        "src": "img/projects/southwest-florida-lanai-wood-plank-ceiling.jpg",
+        "alt": "Finished lanai wood plank ceiling installation"
+      },
+      {
+        "src": "img/projects/southwest-florida-wood-ceiling-finish-detail.jpg",
+        "alt": "Closeup of finished wood ceiling installation",
         "caption": "Closeup of another wood ceiling installation."
       },
-      { "src": "img/woodceilingwhitestainbefore.jpg",
+      {
+        "src": "img/projects/southwest-florida-white-stain-wood-ceiling-before.jpg",
+        "alt": "Wood ceiling installation before white stain finish",
         "caption": "Wood ceiling installation before white stain."
       },
-      {"src":"img/woodceilingwhitestain.jpg",
+      {
+        "src": "img/projects/southwest-florida-white-stain-wood-ceiling-finished.jpg",
+        "alt": "Finished white stain wood ceiling installation",
         "caption": "This customer chose a different finish, I thought it looked great."
       }
-
     ]
   }
 ]
-
