@@ -91,6 +91,13 @@ function normalizeImage(entry, projectTitle = '') {
   projectData.forEach((p) => {
     const article = document.createElement('article');
     article.className = 'axiom-project-card';
+    const projectId = typeof p.id === 'string'
+      ? p.id.trim().replace(/[^A-Za-z0-9_-]/g, '-')
+      : '';
+    if (projectId) {
+      article.id = projectId;
+      article.setAttribute('aria-labelledby', `${projectId}-title`);
+    }
 
     const rawImages = Array.isArray(p.images) ? p.images : [];
     const images = rawImages
@@ -188,7 +195,7 @@ function normalizeImage(entry, projectTitle = '') {
     content.className = 'axiom-project-content';
     content.innerHTML = `
       <div class="axiom-section-label">${p.label || ''}</div>
-      <h2 class="axiom-project-title">${p.title || ''}</h2>
+      <h2 class="axiom-project-title"${projectId ? ` id="${projectId}-title"` : ''}>${p.title || ''}</h2>
       <div class="axiom-project-location">${p.location || ''}</div>
       <div class="axiom-project-copy"><p>${p.description || ''}</p></div>
       <div class="axiom-project-details">
