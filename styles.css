@@ -53,16 +53,21 @@ box-sizing: border-box;
 .axiom-bottombar {
 display: flex;
 align-items: center;
-justify-content: space-between;
+justify-content: center;
 gap: 18px;
-padding: 0 18px;
-background: #f4ede0;
+padding: 10px 18px;
+ background: rgba(255, 255, 255, 0.58);
 border: 1px solid #e7e0d2;
 border-radius: 20px;
 box-shadow: 0 10px 24px rgba(39, 33, 23, 0.04);
 backdrop-filter: blur(6px);
 -webkit-backdrop-filter: blur(6px);
 box-sizing: border-box;
+}
+
+.axiom-bottombar .axiom-nav {
+  width: auto;
+  justify-content: center;
 }
 
 .axiom-brand {
