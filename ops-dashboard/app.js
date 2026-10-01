@@ -1,9 +1,4 @@
 const API_URL="/api/operating-board";
-const demoData=[
-  {id:"demo-lead",name:"Example Lead",type:"lead",stage:"Site Visit Pending",owner:"Brandon + Nicole",area:"Service Area",currentState:"Site visit still needs to be completed.",nextAction:"Schedule walkthrough and capture scope.",waitingOn:"Scheduling",attention:"high",strategicNote:"Demo record only.",jobFolder:"#"},
-  {id:"demo-estimate",name:"Example Estimate",type:"estimate",stage:"Estimate Sent / Viewed",owner:"Brandon",area:"Service Area",currentState:"Estimate has been viewed and is awaiting a decision.",nextAction:"Follow up at the appropriate interval.",waitingOn:"Customer",attention:"medium",strategicNote:"Demo record only.",jobFolder:"#"},
-  {id:"demo-job",name:"Example Job",type:"job",stage:"Sold / Start Pending",owner:"Brandon",area:"Service Area",currentState:"Start time has not been confirmed.",nextAction:"Confirm production start.",waitingOn:"Customer",attention:"high",strategicNote:"Demo record only.",jobFolder:"#"}
-];
 let matters=[],activeFilter="attention";
 
 const q=s=>document.querySelector(s);
@@ -13,14 +8,15 @@ async function loadBoard(){
   status.textContent="Loading operating state…";
   try{
     const res=await fetch(API_URL,{credentials:"same-origin",headers:{"Accept":"application/json"}});
+    if(res.status===401){location.href="login.html";return}
     if(!res.ok) throw new Error("API unavailable");
     const payload=await res.json();
     matters=Array.isArray(payload)?payload:payload.matters;
     if(!Array.isArray(matters)) throw new Error("Invalid board response");
     status.textContent="";
   }catch(err){
-    matters=demoData;
-    status.textContent="Secure live-data endpoint is not connected yet. Showing demo records.";
+    matters=[];
+    status.textContent="Live operating data is temporarily unavailable.";
   }
   render();
 }
@@ -59,8 +55,7 @@ function showDetail(m){
   q("#detailNext").textContent=m.nextAction||"";
   q("#detailWaiting").textContent=m.waitingOn||"Nothing";
   q("#detailStrategy").textContent=m.strategicNote||"";
-  const link=q("#folderLink");link.href=m.jobFolder&&m.jobFolder!=="#" ? m.jobFolder : "#";
-  link.toggleAttribute("aria-disabled",link.href.endsWith("#"));
+  const link=q("#folderLink");link.href=m.jobFolder||"#";
   q("#detailDialog").showModal();
 }
 function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
