@@ -1,57 +1,49 @@
-# Axiom Operating Board — mobile dashboard scaffold
+# Axiom Operating Board — mobile dashboard
 
 This directory is the mobile-first interface layer for Axiom's shared operating state.
 
 ## Architecture
 
-Canonical job systems -> AOE operating logic -> Axiom Operating Board -> this dashboard.
+Canonical job systems -> AOE operating logic -> Axiom Operating Board -> authenticated API -> this dashboard.
 
-The UI is intentionally not the source of truth. The canonical Axiom Operating Board remains the shared operational state layer; detailed job files, GetCost, Calendar, and other canonical systems remain authoritative.
+The UI is not the source of truth. The canonical Axiom Operating Board remains the shared operational state layer; detailed job files, GetCost, Calendar, and other canonical systems remain authoritative.
 
 ## Security boundary
 
-This repository is currently public. Therefore **no customer names, addresses, estimate details, Google credentials, API keys, OAuth tokens, or live operating-board exports belong in this repository**.
+This repository is public. No customer data, Google credentials, API keys, OAuth tokens, passwords, session secrets, or live operating-board exports belong in the repository.
 
-The committed client contains only generic demo records. Production data must be supplied at runtime through an authenticated same-origin endpoint:
+The production dashboard requires server-side environment variables:
 
-    GET /api/operating-board
+- AXIOM_DASHBOARD_PASSWORD
+- AXIOM_SESSION_SECRET
+- GOOGLE_SERVICE_ACCOUNT_EMAIL
+- GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY
+- AXIOM_OPERATING_BOARD_SPREADSHEET_ID
 
-Expected response:
+The Google service account must have read access to the canonical Axiom Operating Board spreadsheet. Credentials stay server-side.
 
-    {
-      "matters": [
-        {
-          "id": "opaque-id",
-          "name": "Client / job name",
-          "type": "lead | estimate | job",
-          "stage": "current stage",
-          "owner": "Brandon | Nicole | Brandon + Nicole",
-          "area": "service area",
-          "currentState": "what is true now",
-          "nextAction": "next Axiom action",
-          "waitingOn": "dependency",
-          "attention": "high | medium | low",
-          "strategicNote": "durable context",
-          "jobFolder": "authorized link"
-        }
-      ]
-    }
+## Runtime flow
 
-## Production requirements
+1. Brandon or Nicole signs in at `/ops-dashboard/login.html`.
+2. `POST /api/login` validates the shared dashboard password and sets a signed HttpOnly session cookie.
+3. `GET /api/operating-board` verifies the session.
+4. The serverless backend authenticates to Google Sheets using a service account.
+5. Only the operational fields needed by the card interface are returned to the browser.
+6. The browser never receives Google credentials.
 
-1. Host the dashboard behind authentication available to Brandon and Nicole.
-2. Keep Google access and credentials server-side.
-3. The backend reads the canonical Axiom Operating Board and returns only fields required by the UI.
-4. Write actions must be authenticated, validated, logged, and routed back through the canonical operating-state workflow.
-5. Never expose the Google Sheet publicly to make the dashboard work.
-6. Support iPhone and Android through the same responsive web app / PWA.
+## Deployment target
+
+The branch contains `vercel.json` and Vercel-compatible serverless functions. A production deployment still requires a connected hosting account and the environment variables above.
 
 ## Current state
 
 - Mobile responsive shell: complete
 - Installable PWA metadata: complete
 - Filters and card detail view: complete
-- Demo fallback state: complete
-- Live authenticated read endpoint: pending
+- Password/session authentication code: complete
+- Live Google Sheets read endpoint code: complete
+- No live secrets committed: verified by design
+- Hosting deployment and environment configuration: pending
+- Service-account share to Operating Board: pending
 - Authenticated write-back: pending
 - Push notifications: pending
