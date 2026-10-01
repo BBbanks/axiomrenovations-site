@@ -3,6 +3,9 @@
 ## Target
 Deploy the dashboard as a protected Vercel project from branch `aoe-operating-dashboard-v1` before merging into `main`.
 
+## Git-trigger note
+Vercel creates Preview deployments automatically from commits pushed to non-production branches after the project has its initial production deployment. The production branch is `main`; therefore commits to `aoe-operating-dashboard-v1` should produce Preview deployments without changing production.
+
 ## Required environment variables
 Configure these in Vercel Project Settings -> Environment Variables for Preview first:
 
