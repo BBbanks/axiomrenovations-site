@@ -56,10 +56,19 @@ function render(){
   q("#estimateCount").textContent=matters.filter(m=>m.type==="estimate").length;
   q("#jobCount").textContent=matters.filter(m=>m.type==="job").length;
 }
+function sourceLabel(source){
+  const s=String(source||"").trim();
+  if(!s) return "";
+  if(/^thumbtack$/i.test(s)) return "Thumbtack";
+  if(/^networx$/i.test(s)) return "Networx";
+  if(/axiom|existing client|previous client/i.test(s)) return "Axiom";
+  return s;
+}
 function makeCard(m){
   const b=document.createElement("button");b.type="button";b.className="card";
   const contact=[m.phone,m.jobAddress].filter(Boolean).join(" · ");
-  b.innerHTML=`<div class="card-head"><div><strong>${esc(m.name)}</strong><div class="meta">${esc(m.area||"")}</div></div><span class="badge">${esc(labelType(m.type))}</span></div>${contact?`<div class="contact-preview">${esc(contact)}</div>`:""}<div class="stage">${esc(m.stage||"")}</div><div class="state">${esc(m.currentState||"")}</div><div class="card-foot"><span>${esc(m.owner||"")}</span><span class="attention-${esc(m.attention||"low")}">${esc(attentionLabel(m.attention))}</span></div>`;
+  const source=sourceLabel(m.leadSource);
+  b.innerHTML=`<div class="card-head"><div><strong>${esc(m.name)}</strong><div class="meta">${esc(m.area||"")}</div></div><span class="badge">${esc(labelType(m.type))}</span></div>${source?`<div class="source-badge source-${esc(source.toLowerCase())}">${esc(source)}</div>`:""}${contact?`<div class="contact-preview">${esc(contact)}</div>`:""}<div class="stage">${esc(m.stage||"")}</div><div class="state">${esc(m.currentState||"")}</div><div class="card-foot"><span>${esc(m.owner||"")}</span><span class="attention-${esc(m.attention||"low")}">${esc(attentionLabel(m.attention))}</span></div>`;
   b.addEventListener("click",()=>showDetail(m));return b;
 }
 function shown(v,fallback="Not yet recorded"){return String(v||"").trim()||fallback}
