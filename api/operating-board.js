@@ -20,9 +20,16 @@ module.exports=async function handler(req,res){
       currentState:cell(r,"Current State"),
       nextAction:cell(r,"Next Action"),
       waitingOn:cell(r,"Waiting On"),
+      followUpDate:cell(r,"Follow-up Date"),
       attention:cell(r,"Attention").toLowerCase()||"low",
       strategicNote:cell(r,"Strategic Note"),
-      jobFolder:cell(r,"Job Folder")
+      leadSource:cell(r,"Lead Source"),
+      lastUpdated:cell(r,"Last Updated"),
+      jobFolder:cell(r,"Job Folder"),
+      phone:cell(r,"Phone"),
+      email:cell(r,"Email"),
+      jobAddress:cell(r,"Job Address"),
+      clientContext:cell(r,"Client Context")
     }));
     res.setHeader("Cache-Control","private, no-store");
     return res.status(200).json({matters});
