@@ -113,7 +113,36 @@ q("#ownerFilters").addEventListener("click",e=>{
   render();
 });
 
+function exportAimView(){
+  const list=filtered();
+  if(!list.length){
+    status.textContent="Nothing in the current view to export.";
+    return;
+  }
+  const payload={
+    schema:"axiom.aim.operating-board-export.v1",
+    exportedAt:new Date().toISOString(),
+    source:"Axiom Operating Board",
+    filters:{view:activeFilter,focus:activeOwner},
+    matterCount:list.length,
+    matters:list
+  };
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  const focus=activeOwner==="all"?"everyone":activeOwner.toLowerCase();
+  const day=new Date().toISOString().slice(0,10);
+  a.href=url;
+  a.download=`axiom-aim-${focus}-${activeFilter}-${day}.json`;
+  document.body.append(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  status.textContent=`AIM export created: ${list.length} matter${list.length===1?"":"s"}.`;
+}
+
 q("#refreshBtn").addEventListener("click",()=>{loadVersion();loadBoard();});
+q("#aimExportBtn").addEventListener("click",exportAimView);
 
 if("serviceWorker" in navigator){
   navigator.serviceWorker.register("sw.js",{updateViaCache:"none"})
