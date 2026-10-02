@@ -105,3 +105,4 @@ if("serviceWorker" in navigator){
 
 loadVersion();
 loadBoard();
+// Production rollback restore marker.
