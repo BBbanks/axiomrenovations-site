@@ -26,7 +26,7 @@ async function getBoardRows(){
   const spreadsheetId=process.env.AXIOM_OPERATING_BOARD_SPREADSHEET_ID;
   if(!spreadsheetId) throw new Error("Operating Board spreadsheet id is not configured");
   const token=await accessToken();
-  const range=encodeURIComponent("'Operating Board'!A4:N200");
+  const range=encodeURIComponent("'Operating Board'!A4:R200");
   const url=`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?majorDimension=ROWS`;
   const r=await fetch(url,{headers:{authorization:`Bearer ${token}`}});
   if(!r.ok) throw new Error("Google Sheets read failed");
