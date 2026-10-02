@@ -1,7 +1,9 @@
 {
+  "id":"/ops-dashboard/",
   "name":"Axiom Operating Board",
   "short_name":"Axiom Board",
-  "start_url":"./",
+  "start_url":"/ops-dashboard/",
+  "scope":"/ops-dashboard/",
   "display":"standalone",
   "background_color":"#f3f4f6",
   "theme_color":"#111827",
