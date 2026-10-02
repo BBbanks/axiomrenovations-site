@@ -12,9 +12,11 @@ async function loadVersion(){
     if(!res.ok) throw new Error("Version unavailable");
     const v=await res.json();
     const sha=String(v.commit||"unknown").slice(0,7);
-    el.textContent=`Build ${sha} · ${v.environment||"unknown"}`;
+    el.textContent=`Build ${sha} · ${v.environment||"unknown"} · ✦`;
+    el.title="Built with ChatGPT";
   }catch{
-    el.textContent="Build unavailable";
+    el.textContent="Build unavailable · ✦";
+    el.title="Built with ChatGPT";
   }
 }
 
