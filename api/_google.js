@@ -17,7 +17,7 @@ async function accessToken(){
   const unsigned=header+"."+claim;
   const signer=crypto.createSign("RSA-SHA256"); signer.update(unsigned); signer.end();
   const assertion=unsigned+"."+signer.sign(key).toString("base64url");
-  const body=new URLSearchParams({grant_type:"urn:ietf:params:oauth:grant-type:jwt-bearer",assertion});
+  const body=new URLSearchParams({grant_type:"urn:ietf:params:oauth2:grant-type:jwt-bearer",assertion});
   const r=await fetch("https://oauth2.googleapis.com/token",{method:"POST",headers:{"content-type":"application/x-www-form-urlencoded"},body});
   if(!r.ok) throw new Error("Google token exchange failed");
   const data=await r.json(); return data.access_token;
@@ -26,7 +26,7 @@ async function getBoardRows(){
   const spreadsheetId=process.env.AXIOM_OPERATING_BOARD_SPREADSHEET_ID;
   if(!spreadsheetId) throw new Error("Operating Board spreadsheet id is not configured");
   const token=await accessToken();
-  const range=encodeURIComponent("'Operating Board'!A4:N200");
+  const range=encodeURIComponent("'Operating Board'!A4:R200");
   const url=`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?majorDimension=ROWS`;
   const r=await fetch(url,{headers:{authorization:`Bearer ${token}`}});
   if(!r.ok) throw new Error("Google Sheets read failed");
