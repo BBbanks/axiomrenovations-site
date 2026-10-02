@@ -61,17 +61,34 @@
           </div>
           <button class="button secondary" value="close">Close</button>
         </div>
+
+        <h3>Client</h3>
+        <dl class="detail-grid client-grid">
+          <div><dt>Phone</dt><dd id="detailPhone"></dd></div>
+          <div><dt>Email</dt><dd id="detailEmail"></dd></div>
+          <div class="wide"><dt>Job / site address</dt><dd id="detailAddress"></dd></div>
+          <div class="wide"><dt>Client context</dt><dd id="detailClientContext"></dd></div>
+        </dl>
+        <div class="detail-actions contact-actions">
+          <a id="callLink" class="button primary" href="#">Call</a>
+          <a id="textLink" class="button secondary" href="#">Text</a>
+          <a id="emailLink" class="button secondary" href="#">Email</a>
+          <a id="mapLink" class="button secondary" href="#" target="_blank" rel="noopener noreferrer">Map</a>
+        </div>
+
+        <h3>Operating state</h3>
         <dl class="detail-grid">
           <div><dt>Stage</dt><dd id="detailStage"></dd></div>
           <div><dt>Owner</dt><dd id="detailOwner"></dd></div>
+          <div><dt>Area</dt><dd id="detailArea"></dd></div>
+          <div><dt>Lead source</dt><dd id="detailLeadSource"></dd></div>
           <div><dt>Current state</dt><dd id="detailState"></dd></div>
           <div><dt>Next action</dt><dd id="detailNext"></dd></div>
           <div><dt>Waiting on</dt><dd id="detailWaiting"></dd></div>
-          <div><dt>Strategic context</dt><dd id="detailStrategy"></dd></div>
+          <div><dt>Follow-up</dt><dd id="detailFollowUp"></dd></div>
+          <div class="wide"><dt>Strategic context</dt><dd id="detailStrategy"></dd></div>
+          <div><dt>Last updated</dt><dd id="detailUpdated"></dd></div>
         </dl>
-        <div class="detail-actions">
-          <a id="folderLink" class="button primary" href="#" target="_blank" rel="noopener noreferrer">Open job record</a>
-        </div>
       </form>
     </dialog>
   </main>
