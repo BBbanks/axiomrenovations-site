@@ -1,8 +1,8 @@
 const API_URL="/api/operating-board";
-let matters=[],activeFilter="attention";
+let matters=[],activeFilter="attention",activeOwner="all";
 
 const q=s=>document.querySelector(s);
-const cards=q("#cards"),status=q("#statusMessage"),ownerFilter=q("#ownerFilter");
+const cards=q("#cards"),status=q("#statusMessage");
 
 async function loadBoard(){
   status.textContent="Loading operating state…";
@@ -21,11 +21,10 @@ async function loadBoard(){
   render();
 }
 function filtered(){
-  const owner=ownerFilter.value;
   return matters.filter(m=>{
     const typeOk=activeFilter==="all"||activeFilter==="attention"||m.type===activeFilter;
     const attentionOk=activeFilter!=="attention"||["high","medium"].includes(m.attention);
-    const ownerOk=owner==="all"||String(m.owner||"").includes(owner);
+    const ownerOk=activeOwner==="all"||String(m.owner||"").includes(activeOwner);
     return typeOk&&attentionOk&&ownerOk;
   });
 }
@@ -65,10 +64,21 @@ function attentionLabel(a){return a==="high"?"High attention":a==="medium"?"Acti
 q("#filters").addEventListener("click",e=>{
   const btn=e.target.closest("[data-filter]");if(!btn)return;
   activeFilter=btn.dataset.filter;
-  document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("active",x===btn));
+  document.querySelectorAll("#filters .chip").forEach(x=>x.classList.toggle("active",x===btn));
   render();
 });
-ownerFilter.addEventListener("change",render);
+
+q("#ownerFilters").addEventListener("click",e=>{
+  const btn=e.target.closest("[data-owner]");if(!btn)return;
+  activeOwner=btn.dataset.owner;
+  document.querySelectorAll(".owner-chip").forEach(x=>{
+    const selected=x===btn;
+    x.classList.toggle("active",selected);
+    x.setAttribute("aria-pressed",String(selected));
+  });
+  render();
+});
+
 q("#refreshBtn").addEventListener("click",loadBoard);
 if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
 loadBoard();
