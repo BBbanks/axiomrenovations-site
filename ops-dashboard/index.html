@@ -27,20 +27,25 @@
     </section>
 
     <section class="controls" aria-label="Board filters">
-      <div class="filters" id="filters">
-        <button type="button" class="chip active" data-filter="attention">Attention</button>
-        <button type="button" class="chip" data-filter="all">All</button>
-        <button type="button" class="chip" data-filter="lead">Leads</button>
-        <button type="button" class="chip" data-filter="estimate">Estimates</button>
-        <button type="button" class="chip" data-filter="job">Jobs</button>
+      <div class="filter-block">
+        <span class="filter-label">View</span>
+        <div class="filters" id="filters">
+          <button type="button" class="chip active" data-filter="attention">Attention</button>
+          <button type="button" class="chip" data-filter="all">All</button>
+          <button type="button" class="chip" data-filter="lead">Leads</button>
+          <button type="button" class="chip" data-filter="estimate">Estimates</button>
+          <button type="button" class="chip" data-filter="job">Jobs</button>
+        </div>
       </div>
-      <label class="owner-filter">Owner
-        <select id="ownerFilter">
-          <option value="all">Everyone</option>
-          <option value="Brandon">Brandon</option>
-          <option value="Nicole">Nicole</option>
-        </select>
-      </label>
+
+      <div class="filter-block owner-block">
+        <span class="filter-label">Owner</span>
+        <div class="owner-filters" id="ownerFilters" role="group" aria-label="Filter by owner">
+          <button type="button" class="owner-chip active" data-owner="all" aria-pressed="true">Everyone</button>
+          <button type="button" class="owner-chip" data-owner="Brandon" aria-pressed="false">Brandon</button>
+          <button type="button" class="owner-chip" data-owner="Nicole" aria-pressed="false">Nicole</button>
+        </div>
+      </div>
     </section>
 
     <p id="statusMessage" class="status" role="status"></p>
