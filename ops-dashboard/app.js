@@ -1,13 +1,27 @@
 const API_URL="/api/operating-board";
+const VERSION_URL="/api/version";
 let matters=[],activeFilter="attention",activeOwner="all";
 
 const q=s=>document.querySelector(s);
 const cards=q("#cards"),status=q("#statusMessage");
 
+async function loadVersion(){
+  const el=q("#buildVersion");
+  try{
+    const res=await fetch(VERSION_URL,{cache:"no-store",headers:{"Accept":"application/json"}});
+    if(!res.ok) throw new Error("Version unavailable");
+    const v=await res.json();
+    const sha=String(v.commit||"unknown").slice(0,7);
+    el.textContent=`Build ${sha} · ${v.environment||"unknown"}`;
+  }catch{
+    el.textContent="Build unavailable";
+  }
+}
+
 async function loadBoard(){
   status.textContent="Loading operating state…";
   try{
-    const res=await fetch(API_URL,{credentials:"same-origin",headers:{"Accept":"application/json"}});
+    const res=await fetch(API_URL,{credentials:"same-origin",cache:"no-store",headers:{"Accept":"application/json"}});
     if(res.status===401){location.href="login.html";return}
     if(!res.ok) throw new Error("API unavailable");
     const payload=await res.json();
@@ -79,6 +93,13 @@ q("#ownerFilters").addEventListener("click",e=>{
   render();
 });
 
-q("#refreshBtn").addEventListener("click",loadBoard);
-if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
+q("#refreshBtn").addEventListener("click",()=>{loadVersion();loadBoard();});
+
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.register("sw.js",{updateViaCache:"none"})
+    .then(reg=>reg.update())
+    .catch(()=>{});
+}
+
+loadVersion();
 loadBoard();
