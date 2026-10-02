@@ -58,19 +58,28 @@ function render(){
 }
 function makeCard(m){
   const b=document.createElement("button");b.type="button";b.className="card";
-  b.innerHTML=`<div class="card-head"><div><strong>${esc(m.name)}</strong><div class="meta">${esc(m.area||"")}</div></div><span class="badge">${esc(labelType(m.type))}</span></div><div class="stage">${esc(m.stage||"")}</div><div class="state">${esc(m.currentState||"")}</div><div class="card-foot"><span>${esc(m.owner||"")}</span><span class="attention-${esc(m.attention||"low")}">${esc(attentionLabel(m.attention))}</span></div>`;
+  const contact=[m.phone,m.jobAddress].filter(Boolean).join(" · ");
+  b.innerHTML=`<div class="card-head"><div><strong>${esc(m.name)}</strong><div class="meta">${esc(m.area||"")}</div></div><span class="badge">${esc(labelType(m.type))}</span></div>${contact?`<div class="contact-preview">${esc(contact)}</div>`:""}<div class="stage">${esc(m.stage||"")}</div><div class="state">${esc(m.currentState||"")}</div><div class="card-foot"><span>${esc(m.owner||"")}</span><span class="attention-${esc(m.attention||"low")}">${esc(attentionLabel(m.attention))}</span></div>`;
   b.addEventListener("click",()=>showDetail(m));return b;
 }
+function shown(v,fallback="Not yet recorded"){return String(v||"").trim()||fallback}
 function showDetail(m){
   q("#detailType").textContent=labelType(m.type);
   q("#detailName").textContent=m.name||"";
-  q("#detailStage").textContent=m.stage||"";
-  q("#detailOwner").textContent=m.owner||"";
-  q("#detailState").textContent=m.currentState||"";
-  q("#detailNext").textContent=m.nextAction||"";
-  q("#detailWaiting").textContent=m.waitingOn||"Nothing";
-  q("#detailStrategy").textContent=m.strategicNote||"";
-  const link=q("#folderLink");link.href=m.jobFolder||"#";
+  q("#detailPhone").textContent=shown(m.phone);
+  q("#detailEmail").textContent=shown(m.email);
+  q("#detailAddress").textContent=shown(m.jobAddress);
+  q("#detailClientContext").textContent=shown(m.clientContext);
+  q("#detailStage").textContent=shown(m.stage,"");
+  q("#detailOwner").textContent=shown(m.owner,"");
+  q("#detailArea").textContent=shown(m.area);
+  q("#detailLeadSource").textContent=shown(m.leadSource);
+  q("#detailState").textContent=shown(m.currentState,"");
+  q("#detailNext").textContent=shown(m.nextAction,"");
+  q("#detailWaiting").textContent=shown(m.waitingOn,"Nothing");
+  q("#detailFollowUp").textContent=shown(m.followUpDate);
+  q("#detailStrategy").textContent=shown(m.strategicNote);
+  q("#detailUpdated").textContent=shown(m.lastUpdated);
   q("#detailDialog").showModal();
 }
 function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
@@ -105,4 +114,3 @@ if("serviceWorker" in navigator){
 
 loadVersion();
 loadBoard();
-// Production rollback restore marker.
