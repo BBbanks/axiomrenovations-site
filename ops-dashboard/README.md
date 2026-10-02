@@ -47,3 +47,5 @@ The branch contains `vercel.json` and Vercel-compatible serverless functions. A 
 - Service-account share to Operating Board: pending
 - Authenticated write-back: pending
 - Push notifications: pending
+
+Preview rebuild trigger: 2026-10-03 environment-scope validation.
