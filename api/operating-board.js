@@ -1,12 +1,12 @@
 const {isAuthorized}=require("./_auth");
-const {getBoardRows,getLeadSourceRows}=require("./_google");
+const {getBoardRows,getLeadSourceRows,getBusinessPriorityRows}=require("./_google");
 
 module.exports=async function handler(req,res){
   if(req.method!=="GET") return res.status(405).json({error:"Method not allowed"});
   if(!isAuthorized(req)) return res.status(401).json({error:"Authentication required"});
   try{
-    const [rows,sourceRows]=await Promise.all([getBoardRows(),getLeadSourceRows()]);
-    if(rows.length<1) return res.status(200).json({matters:[],leadSources:[]});
+    const [rows,sourceRows,priorityRows]=await Promise.all([getBoardRows(),getLeadSourceRows(),getBusinessPriorityRows()]);
+    if(rows.length<1) return res.status(200).json({matters:[],leadSources:[],businessPriorities:[]});
     const headers=rows[0].map(String);
     const pos=Object.fromEntries(headers.map((h,i)=>[h,i]));
     const cell=(row,name)=>String(row[pos[name]]??"").trim();
@@ -49,8 +49,21 @@ module.exports=async function handler(req,res){
       lastVerified:sourceCell(r,"Last Verified"),
       serviceArea:sourceCell(r,"Service Area")
     }));
+    const priorityHeaders=(priorityRows[0]||[]).map(String);
+    const priorityPos=Object.fromEntries(priorityHeaders.map((h,i)=>[h,i]));
+    const priorityCell=(row,name)=>String(row[priorityPos[name]]??"").trim();
+    const businessPriorities=priorityRows.slice(1).filter(r=>priorityCell(r,"Priority / Goal")).map((r,i)=>({
+      id:"priority-"+(i+2),
+      name:priorityCell(r,"Priority / Goal"),
+      horizon:priorityCell(r,"Horizon"),
+      focus:priorityCell(r,"Focus"),
+      currentState:priorityCell(r,"Current State"),
+      nextAction:priorityCell(r,"Next Action"),
+      targetDate:priorityCell(r,"Target Date"),
+      lastUpdated:priorityCell(r,"Last Updated")
+    }));
     res.setHeader("Cache-Control","private, no-store");
-    return res.status(200).json({matters,leadSources});
+    return res.status(200).json({matters,leadSources,businessPriorities});
   }catch(err){
     return res.status(503).json({error:"Operating Board is not available"});
   }
