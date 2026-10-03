@@ -46,7 +46,8 @@ module.exports=async function handler(req,res){
       status:sourceCell(r,"Status"),
       scheduledReactivation:sourceCell(r,"Scheduled Reactivation"),
       note:sourceCell(r,"Evidence / Note"),
-      lastVerified:sourceCell(r,"Last Verified")
+      lastVerified:sourceCell(r,"Last Verified"),
+      serviceArea:sourceCell(r,"Service Area")
     }));
     res.setHeader("Cache-Control","private, no-store");
     return res.status(200).json({matters,leadSources});
