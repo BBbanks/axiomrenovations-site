@@ -36,13 +36,22 @@ async function loadBoard(){
   }
   render();
 }
+function queueNumber(v){
+  const n=Number(v);
+  return Number.isFinite(n)&&n>0?n:Number.POSITIVE_INFINITY;
+}
 function filtered(){
-  return matters.filter(m=>{
-    const typeOk=activeFilter==="all"||activeFilter==="attention"||m.type===activeFilter;
+  const list=matters.filter(m=>{
+    const typeOk=activeFilter==="all"||activeFilter==="attention"||activeFilter==="schedule"||m.type===activeFilter;
     const attentionOk=activeFilter!=="attention"||["high","medium"].includes(m.attention);
+    const scheduleOk=activeFilter!=="schedule"||(m.scheduleState&&m.scheduleState.toLowerCase()!=="complete");
     const ownerOk=activeOwner==="all"||String(m.owner||"").includes(activeOwner);
-    return typeOk&&attentionOk&&ownerOk;
+    return typeOk&&attentionOk&&scheduleOk&&ownerOk;
   });
+  if(activeFilter==="schedule"){
+    list.sort((a,b)=>queueNumber(a.queuePosition)-queueNumber(b.queuePosition)||String(a.name).localeCompare(String(b.name)));
+  }
+  return list;
 }
 function render(){
   const list=filtered();
@@ -64,11 +73,19 @@ function sourceLabel(source){
   if(/axiom|existing client|previous client/i.test(s)) return "Axiom";
   return s;
 }
+function schedulePreview(m){
+  if(!m.scheduleState&&!m.queuePosition&&!m.occupiedDaysForecast) return "";
+  const parts=[];
+  if(m.queuePosition) parts.push(`Queue #${esc(m.queuePosition)}`);
+  if(m.scheduleState) parts.push(esc(m.scheduleState));
+  if(m.occupiedDaysForecast) parts.push(`${esc(m.occupiedDaysForecast)} occupied days`);
+  return `<div class="schedule-preview">${parts.join(" · ")}</div>`;
+}
 function makeCard(m){
   const b=document.createElement("button");b.type="button";b.className="card";
   const contact=[m.phone,m.jobAddress].filter(Boolean).join(" · ");
   const source=sourceLabel(m.leadSource);
-  b.innerHTML=`<div class="card-head"><div><strong>${esc(m.name)}</strong><div class="meta">${esc(m.area||"")}</div></div><span class="badge">${esc(labelType(m.type))}</span></div>${source?`<div class="source-badge source-${esc(source.toLowerCase())}">${esc(source)}</div>`:""}${contact?`<div class="contact-preview">${esc(contact)}</div>`:""}<div class="stage">${esc(m.stage||"")}</div><div class="state">${esc(m.currentState||"")}</div><div class="card-foot"><span>${esc(m.owner||"")}</span><span class="attention-${esc(m.attention||"low")}">${esc(attentionLabel(m.attention))}</span></div>`;
+  b.innerHTML=`<div class="card-head"><div><strong>${esc(m.name)}</strong><div class="meta">${esc(m.area||"")}</div></div><span class="badge">${esc(labelType(m.type))}</span></div>${source?`<div class="source-badge source-${esc(source.toLowerCase())}">${esc(source)}</div>`:""}${contact?`<div class="contact-preview">${esc(contact)}</div>`:""}${activeFilter==="schedule"?schedulePreview(m):""}<div class="stage">${esc(m.stage||"")}</div><div class="state">${esc(m.currentState||"")}</div><div class="card-foot"><span>${esc(m.owner||"")}</span><span class="attention-${esc(m.attention||"low")}">${esc(attentionLabel(m.attention))}</span></div>`;
   b.addEventListener("click",()=>showDetail(m));return b;
 }
 function shown(v,fallback="Not yet recorded"){return String(v||"").trim()||fallback}
@@ -89,6 +106,13 @@ function showDetail(m){
   q("#detailFollowUp").textContent=shown(m.followUpDate);
   q("#detailStrategy").textContent=shown(m.strategicNote);
   q("#detailUpdated").textContent=shown(m.lastUpdated);
+  q("#detailScheduleState").textContent=shown(m.scheduleState);
+  q("#detailQueuePosition").textContent=shown(m.queuePosition);
+  q("#detailOccupiedDays").textContent=shown(m.occupiedDaysForecast);
+  q("#detailEarliestStart").textContent=shown(m.earliestStart);
+  q("#detailLatestStart").textContent=shown(m.latestStart);
+  q("#detailFlexibility").textContent=shown(m.flexibility);
+  q("#detailScheduleConstraint").textContent=shown(m.scheduleConstraint);
   q("#detailDialog").showModal();
 }
 function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
