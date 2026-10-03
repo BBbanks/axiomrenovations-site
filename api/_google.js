@@ -33,5 +33,5 @@ async function getRows(a1Range){
   const data=await r.json(); return data.values||[];
 }
 async function getBoardRows(){return getRows("'Operating Board'!A4:Y200")}
-async function getLeadSourceRows(){return getRows("'Lead Sources'!A1:E20")}
+async function getLeadSourceRows(){return getRows("'Lead Sources'!A1:F20")}
 module.exports={getBoardRows,getLeadSourceRows};
