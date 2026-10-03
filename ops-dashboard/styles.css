@@ -6,3 +6,15 @@
 .lead-channel-head{display:flex;justify-content:space-between;gap:12px;align-items:baseline;margin-bottom:9px}.lead-channel-hint{font-size:11px;color:var(--muted)}
 .lead-sources{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.lead-source-card{border:1px solid var(--border);border-radius:12px;padding:11px;background:#f9fafb}.lead-source-top{display:flex;justify-content:space-between;gap:10px;align-items:center}.lead-state{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;border-radius:999px;padding:4px 8px;border:1px solid var(--border)}.lead-state-active{background:var(--ok);color:#166534;border-color:#bbf7d0}.lead-state-paused{background:var(--warn);color:#92400e;border-color:#fde68a}.lead-state-unknown{background:#f3f4f6;color:#4b5563}.lead-reactivation{display:flex;justify-content:space-between;gap:10px;margin-top:9px;font-size:12px;color:#374151}.lead-reactivation span,.lead-verified{color:var(--muted)}.lead-verified{font-size:10px;margin-top:7px}.lead-source-empty{font-size:12px;color:var(--muted);padding:4px 2px}
 @media(max-width:760px){.lead-sources{grid-template-columns:1fr}.lead-channel-hint{display:none}}
+
+.priority-panel{margin:0 0 16px;background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:12px}
+.priority-panel-head{display:flex;justify-content:space-between;gap:12px;align-items:baseline;margin-bottom:9px}
+.priority-groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.priority-group{border:1px solid var(--border);border-radius:12px;background:#f9fafb;padding:10px;min-width:0}
+.priority-group-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+.priority-group-head strong{font-size:13px}.priority-group-head span{font-size:10px;font-weight:800;color:var(--muted);border:1px solid var(--border);border-radius:999px;padding:3px 7px;background:#fff}
+.priority-item{padding:9px 0;border-top:1px solid var(--border)}.priority-item:first-of-type{border-top:0;padding-top:2px}
+.priority-title{font-size:12px;font-weight:800;line-height:1.3}.priority-next{font-size:11px;color:#374151;line-height:1.4;margin-top:4px}
+.priority-meta{display:flex;justify-content:space-between;gap:8px;margin-top:6px;font-size:10px;color:var(--muted)}.priority-date{white-space:nowrap}
+.priority-empty{margin:0;color:var(--muted);font-size:11px}
+@media(max-width:760px){.priority-groups{grid-template-columns:1fr}.priority-panel-head .lead-channel-hint{display:none}}
