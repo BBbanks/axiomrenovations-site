@@ -1,6 +1,6 @@
 const API_URL="/api/operating-board";
 const VERSION_URL="/api/version";
-let matters=[],leadSources=[],activeFilter="attention",activeOwner="all";
+let matters=[],leadSources=[],businessPriorities=[],activeFilter="attention",activeOwner="all";
 
 const q=s=>document.querySelector(s);
 const cards=q("#cards"),status=q("#statusMessage");
@@ -29,11 +29,13 @@ async function loadBoard(){
     const payload=await res.json();
     matters=Array.isArray(payload)?payload:payload.matters;
     leadSources=Array.isArray(payload)?[]:(Array.isArray(payload.leadSources)?payload.leadSources:[]);
+    businessPriorities=Array.isArray(payload)?[]:(Array.isArray(payload.businessPriorities)?payload.businessPriorities:[]);
     if(!Array.isArray(matters)) throw new Error("Invalid board response");
     status.textContent="";
   }catch(err){
     matters=[];
     leadSources=[];
+    businessPriorities=[];
     status.textContent="Live operating data is temporarily unavailable.";
   }
   render();
@@ -57,6 +59,7 @@ function filtered(){
 }
 function render(){
   renderLeadSources();
+  renderBusinessPriorities();
   const list=filtered();
   cards.replaceChildren();
   if(!list.length){
@@ -90,6 +93,36 @@ function renderLeadSources(){
     card.innerHTML=`<div class="lead-source-top"><strong>${esc(item.source||"Lead source")}</strong><span class="lead-state lead-state-${stateClass}">${esc(state)}</span></div>${activation}${serviceArea}${verified}`;
     if(item.note) card.title=item.note;
     host.append(card);
+  }
+}
+function renderBusinessPriorities(){
+  const host=q("#businessPriorities");
+  if(!host) return;
+  host.replaceChildren();
+  const groups=[["Now","Now"],["This Week","This week"],["Goal","Goals"]];
+  for(const [key,label] of groups){
+    const items=businessPriorities.filter(item=>String(item.horizon||"").toLowerCase()===key.toLowerCase());
+    const group=document.createElement("details");
+    group.className="priority-group";
+    const summary=document.createElement("summary");
+    summary.className="priority-group-head";
+    summary.innerHTML=`<span class="priority-label"><strong>${esc(label)}</strong><span class="priority-count">${items.length}</span></span><span class="priority-chevron" aria-hidden="true">⌄</span>`;
+    group.append(summary);
+    const body=document.createElement("div");
+    body.className="priority-group-body";
+    if(!items.length){
+      const empty=document.createElement("p");empty.className="priority-empty";empty.textContent="Nothing recorded.";body.append(empty);
+    }
+    for(const item of items){
+      const row=document.createElement("div");
+      row.className="priority-item";
+      const target=item.targetDate?`<span class="priority-date">${esc(item.targetDate)}</span>`:"";
+      row.innerHTML=`<div class="priority-title">${esc(item.name)}</div><div class="priority-next">${esc(item.nextAction||item.currentState||"")}</div><div class="priority-meta"><span>${esc(item.focus||"")}</span>${target}</div>`;
+      row.title=item.currentState||"";
+      body.append(row);
+    }
+    group.append(body);
+    host.append(group);
   }
 }
 function sourceLabel(source){
