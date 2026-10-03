@@ -102,14 +102,16 @@ function renderBusinessPriorities(){
   const groups=[["Now","Now"],["This Week","This week"],["Goal","Goals"]];
   for(const [key,label] of groups){
     const items=businessPriorities.filter(item=>String(item.horizon||"").toLowerCase()===key.toLowerCase());
-    const card=document.createElement("article");
-    card.className="priority-group";
-    const head=document.createElement("div");
-    head.className="priority-group-head";
-    head.innerHTML=`<strong>${esc(label)}</strong><span>${items.length}</span>`;
-    card.append(head);
+    const group=document.createElement("details");
+    group.className="priority-group";
+    const summary=document.createElement("summary");
+    summary.className="priority-group-head";
+    summary.innerHTML=`<span class="priority-label"><strong>${esc(label)}</strong><span class="priority-count">${items.length}</span></span><span class="priority-chevron" aria-hidden="true">⌄</span>`;
+    group.append(summary);
+    const body=document.createElement("div");
+    body.className="priority-group-body";
     if(!items.length){
-      const empty=document.createElement("p");empty.className="priority-empty";empty.textContent="Nothing recorded.";card.append(empty);
+      const empty=document.createElement("p");empty.className="priority-empty";empty.textContent="Nothing recorded.";body.append(empty);
     }
     for(const item of items){
       const row=document.createElement("div");
@@ -117,9 +119,10 @@ function renderBusinessPriorities(){
       const target=item.targetDate?`<span class="priority-date">${esc(item.targetDate)}</span>`:"";
       row.innerHTML=`<div class="priority-title">${esc(item.name)}</div><div class="priority-next">${esc(item.nextAction||item.currentState||"")}</div><div class="priority-meta"><span>${esc(item.focus||"")}</span>${target}</div>`;
       row.title=item.currentState||"";
-      card.append(row);
+      body.append(row);
     }
-    host.append(card);
+    group.append(body);
+    host.append(group);
   }
 }
 function sourceLabel(source){
