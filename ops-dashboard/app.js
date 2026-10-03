@@ -1,6 +1,6 @@
 const API_URL="/api/operating-board";
 const VERSION_URL="/api/version";
-let matters=[],activeFilter="attention",activeOwner="all";
+let matters=[],leadSources=[],activeFilter="attention",activeOwner="all";
 
 const q=s=>document.querySelector(s);
 const cards=q("#cards"),status=q("#statusMessage");
@@ -28,10 +28,12 @@ async function loadBoard(){
     if(!res.ok) throw new Error("API unavailable");
     const payload=await res.json();
     matters=Array.isArray(payload)?payload:payload.matters;
+    leadSources=Array.isArray(payload)?[]:(Array.isArray(payload.leadSources)?payload.leadSources:[]);
     if(!Array.isArray(matters)) throw new Error("Invalid board response");
     status.textContent="";
   }catch(err){
     matters=[];
+    leadSources=[];
     status.textContent="Live operating data is temporarily unavailable.";
   }
   render();
@@ -54,6 +56,7 @@ function filtered(){
   return list;
 }
 function render(){
+  renderLeadSources();
   const list=filtered();
   cards.replaceChildren();
   if(!list.length){
@@ -64,6 +67,30 @@ function render(){
   q("#leadCount").textContent=matters.filter(m=>m.type==="lead").length;
   q("#estimateCount").textContent=matters.filter(m=>m.type==="estimate").length;
   q("#jobCount").textContent=matters.filter(m=>m.type==="job").length;
+}
+function renderLeadSources(){
+  const host=q("#leadSources");
+  if(!host) return;
+  host.replaceChildren();
+  if(!leadSources.length){
+    const empty=document.createElement("div");
+    empty.className="lead-source-empty";
+    empty.textContent="Lead channel status is not yet recorded.";
+    host.append(empty);
+    return;
+  }
+  for(const item of leadSources){
+    const card=document.createElement("article");
+    card.className="lead-source-card";
+    const state=String(item.status||"Unknown").trim();
+    const stateClass=/^active$/i.test(state)?"active":/^paused$/i.test(state)?"paused":"unknown";
+    const activation=item.scheduledReactivation?`<div class="lead-reactivation"><span>Reactivates</span><strong>${esc(item.scheduledReactivation)}</strong></div>`:"";
+    const serviceArea=item.serviceArea?`<div class="lead-reactivation"><span>Service area</span><strong>${esc(item.serviceArea)}</strong></div>`:"";
+    const verified=item.lastVerified?`<div class="lead-verified">Verified ${esc(item.lastVerified)}</div>`:"";
+    card.innerHTML=`<div class="lead-source-top"><strong>${esc(item.source||"Lead source")}</strong><span class="lead-state lead-state-${stateClass}">${esc(state)}</span></div>${activation}${serviceArea}${verified}`;
+    if(item.note) card.title=item.note;
+    host.append(card);
+  }
 }
 function sourceLabel(source){
   const s=String(source||"").trim();
