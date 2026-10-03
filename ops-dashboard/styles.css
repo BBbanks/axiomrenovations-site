@@ -10,11 +10,16 @@
 .priority-panel{margin:0 0 16px;background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:12px}
 .priority-panel-head{display:flex;justify-content:space-between;gap:12px;align-items:baseline;margin-bottom:9px}
 .priority-groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.priority-group{border:1px solid var(--border);border-radius:12px;background:#f9fafb;padding:10px;min-width:0}
-.priority-group-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
-.priority-group-head strong{font-size:13px}.priority-group-head span{font-size:10px;font-weight:800;color:var(--muted);border:1px solid var(--border);border-radius:999px;padding:3px 7px;background:#fff}
-.priority-item{padding:9px 0;border-top:1px solid var(--border)}.priority-item:first-of-type{border-top:0;padding-top:2px}
+.priority-group{border:1px solid var(--border);border-radius:12px;background:#f9fafb;min-width:0;overflow:hidden}
+.priority-group-head{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:44px;padding:0 10px;cursor:pointer;list-style:none}
+.priority-group-head::-webkit-details-marker{display:none}
+.priority-label{display:flex;align-items:center;gap:8px}.priority-group-head strong{font-size:13px}
+.priority-count{font-size:10px;font-weight:800;color:var(--muted);border:1px solid var(--border);border-radius:999px;padding:3px 7px;background:#fff}
+.priority-chevron{font-size:18px;color:var(--muted);transition:transform .16s ease}.priority-group[open] .priority-chevron{transform:rotate(180deg)}
+.priority-group-body{padding:0 10px 8px;border-top:1px solid var(--border)}
+.priority-item{padding:9px 0;border-top:1px solid var(--border)}.priority-item:first-child{border-top:0}
 .priority-title{font-size:12px;font-weight:800;line-height:1.3}.priority-next{font-size:11px;color:#374151;line-height:1.4;margin-top:4px}
 .priority-meta{display:flex;justify-content:space-between;gap:8px;margin-top:6px;font-size:10px;color:var(--muted)}.priority-date{white-space:nowrap}
-.priority-empty{margin:0;color:var(--muted);font-size:11px}
+.priority-empty{margin:9px 0 2px;color:var(--muted);font-size:11px}
+.priority-group-head:focus-visible{outline:3px solid #93c5fd;outline-offset:-3px}
 @media(max-width:760px){.priority-groups{grid-template-columns:1fr}.priority-panel-head .lead-channel-hint{display:none}}
