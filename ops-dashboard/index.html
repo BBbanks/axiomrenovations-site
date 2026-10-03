@@ -32,6 +32,7 @@
         <span class="filter-label">View</span>
         <div class="filters" id="filters">
           <button type="button" class="chip active" data-filter="attention">Attention</button>
+          <button type="button" class="chip" data-filter="schedule">Schedule</button>
           <button type="button" class="chip" data-filter="all">All</button>
           <button type="button" class="chip" data-filter="lead">Leads</button>
           <button type="button" class="chip" data-filter="estimate">Estimates</button>
@@ -88,6 +89,17 @@
           <div><dt>Follow-up</dt><dd id="detailFollowUp"></dd></div>
           <div class="wide"><dt>Strategic context</dt><dd id="detailStrategy"></dd></div>
           <div><dt>Last updated</dt><dd id="detailUpdated"></dd></div>
+        </dl>
+
+        <h3>Scheduling</h3>
+        <dl class="detail-grid schedule-grid">
+          <div><dt>Schedule state</dt><dd id="detailScheduleState"></dd></div>
+          <div><dt>Queue position</dt><dd id="detailQueuePosition"></dd></div>
+          <div><dt>Occupied days</dt><dd id="detailOccupiedDays"></dd></div>
+          <div><dt>Flexibility</dt><dd id="detailFlexibility"></dd></div>
+          <div><dt>Earliest start</dt><dd id="detailEarliestStart"></dd></div>
+          <div><dt>Latest start</dt><dd id="detailLatestStart"></dd></div>
+          <div class="wide"><dt>Schedule constraint</dt><dd id="detailScheduleConstraint"></dd></div>
         </dl>
       </form>
     </dialog>
