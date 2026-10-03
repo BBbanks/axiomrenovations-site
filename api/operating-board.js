@@ -29,7 +29,14 @@ module.exports=async function handler(req,res){
       phone:cell(r,"Phone"),
       email:cell(r,"Email"),
       jobAddress:cell(r,"Job Address"),
-      clientContext:cell(r,"Client Context")
+      clientContext:cell(r,"Client Context"),
+      scheduleState:cell(r,"Schedule State"),
+      queuePosition:cell(r,"Queue Position"),
+      occupiedDaysForecast:cell(r,"Occupied Days Forecast"),
+      earliestStart:cell(r,"Earliest Start"),
+      latestStart:cell(r,"Latest Start"),
+      flexibility:cell(r,"Flexibility"),
+      scheduleConstraint:cell(r,"Schedule Constraint")
     }));
     res.setHeader("Cache-Control","private, no-store");
     return res.status(200).json({matters});
