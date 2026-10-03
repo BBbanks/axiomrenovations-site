@@ -85,8 +85,9 @@ function renderLeadSources(){
     const state=String(item.status||"Unknown").trim();
     const stateClass=/^active$/i.test(state)?"active":/^paused$/i.test(state)?"paused":"unknown";
     const activation=item.scheduledReactivation?`<div class="lead-reactivation"><span>Reactivates</span><strong>${esc(item.scheduledReactivation)}</strong></div>`:"";
+    const serviceArea=item.serviceArea?`<div class="lead-reactivation"><span>Service area</span><strong>${esc(item.serviceArea)}</strong></div>`:"";
     const verified=item.lastVerified?`<div class="lead-verified">Verified ${esc(item.lastVerified)}</div>`:"";
-    card.innerHTML=`<div class="lead-source-top"><strong>${esc(item.source||"Lead source")}</strong><span class="lead-state lead-state-${stateClass}">${esc(state)}</span></div>${activation}${verified}`;
+    card.innerHTML=`<div class="lead-source-top"><strong>${esc(item.source||"Lead source")}</strong><span class="lead-state lead-state-${stateClass}">${esc(state)}</span></div>${activation}${serviceArea}${verified}`;
     if(item.note) card.title=item.note;
     host.append(card);
   }
