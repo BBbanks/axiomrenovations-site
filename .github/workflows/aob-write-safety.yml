@@ -3,13 +3,14 @@ on:
   pull_request:
     paths:
       - 'lib/aob-write-planner.js'
-      - 'test/aob-write-planner.test.js'
+      - 'lib/aob-safe-writer.js'
+      - 'test/*.test.js'
       - '.github/workflows/aob-write-safety.yml'
   push:
     branches: [main]
     paths:
       - 'lib/aob-write-planner.js'
-      - 'test/aob-write-planner.test.js'
+      - 'test/*.test.js'
 jobs:
   unit-tests:
     runs-on: ubuntu-latest
@@ -20,4 +21,4 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: node --test test/aob-write-planner.test.js
+      - run: node --test test/*.test.js
