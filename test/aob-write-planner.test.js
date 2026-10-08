@@ -1,0 +1,14 @@
+"use strict";
+const assert=require("node:assert/strict");
+const test=require("node:test");
+const {HEADER,planCreate,planUpdate}=require("../lib/aob-write-planner");
+const row=(name,email="",phone="")=>{const r=Array(25).fill("");r[0]=name;r[15]=email;r[14]=phone;return r};
+const board=[HEADER,row("Bill Anderson"),row("William Keith"),row("Richard Bressman","rbressman@gmail.com"),row("Robert Schiller")];
+test("new matter inserts after existing records, never into occupied row",()=>{const p=planCreate(board,{Matter:"New Client"});assert.equal(p.insertAt,9);assert.equal(p.expectedMatters.length,4)});
+test("duplicate name fails closed",()=>assert.throws(()=>planCreate(board,{Matter:"Robert Schiller"}),/duplicate/));
+test("duplicate contact fails closed",()=>assert.throws(()=>planCreate(board,{Matter:"Another Name",Email:"rbressman@gmail.com"}),/duplicate/));
+test("unknown field fails closed",()=>assert.throws(()=>planCreate(board,{Matter:"New",Unknown:"x"}),/Unknown/));
+test("update resolves identity, not remembered row",()=>{const p=planUpdate(board,"Robert Schiller",{"Next Action":"Call"});assert.equal(p.row,8)});
+test("unknown update target fails closed",()=>assert.throws(()=>planUpdate(board,"Missing",{"Next Action":"Call"}),/uniquely/));
+test("schema drift fails closed",()=>assert.throws(()=>planCreate([["Matter"],row("Bill")],{Matter:"New"}),/schema/));
+test("identity rename fails closed",()=>assert.throws(()=>planUpdate(board,"Robert Schiller",{Matter:"Someone Else"}),/rename/));
