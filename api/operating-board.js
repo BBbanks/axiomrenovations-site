@@ -56,6 +56,7 @@ module.exports=async function handler(req,res){
       id:"priority-"+(i+2),
       name:priorityCell(r,"Priority / Goal"),
       horizon:priorityCell(r,"Horizon"),
+      priorityLane:priorityCell(r,"Priority Lane"),
       focus:priorityCell(r,"Focus"),
       currentState:priorityCell(r,"Current State"),
       nextAction:priorityCell(r,"Next Action"),
