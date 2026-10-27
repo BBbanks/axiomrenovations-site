@@ -1,6 +1,6 @@
 const API_URL="/api/operating-board";
 const VERSION_URL="/api/version";
-let matters=[],leadSources=[],activeFilter="attention",activeOwner="all";
+let matters=[],leadSources=[],businessPriorities=[],activeFilter="attention",activeOwner="all";
 
 const q=s=>document.querySelector(s);
 const cards=q("#cards"),status=q("#statusMessage");
@@ -29,11 +29,13 @@ async function loadBoard(){
     const payload=await res.json();
     matters=Array.isArray(payload)?payload:payload.matters;
     leadSources=Array.isArray(payload)?[]:(Array.isArray(payload.leadSources)?payload.leadSources:[]);
+    businessPriorities=Array.isArray(payload)?[]:(Array.isArray(payload.businessPriorities)?payload.businessPriorities:[]);
     if(!Array.isArray(matters)) throw new Error("Invalid board response");
     status.textContent="";
   }catch(err){
     matters=[];
     leadSources=[];
+    businessPriorities=[];
     status.textContent="Live operating data is temporarily unavailable.";
   }
   render();
@@ -57,6 +59,7 @@ function filtered(){
 }
 function render(){
   renderLeadSources();
+  renderBusinessPriorities();
   const list=filtered();
   cards.replaceChildren();
   if(!list.length){
@@ -90,6 +93,59 @@ function renderLeadSources(){
     card.innerHTML=`<div class="lead-source-top"><strong>${esc(item.source||"Lead source")}</strong><span class="lead-state lead-state-${stateClass}">${esc(state)}</span></div>${activation}${serviceArea}${verified}`;
     if(item.note) card.title=item.note;
     host.append(card);
+  }
+}
+function renderBusinessPriorities(){
+  const host=q("#businessPriorities");
+  if(!host) return;
+  host.replaceChildren();
+  const lanes=[
+    {key:"Business Operations",label:"Business operations",hint:"Cash exposure, customers, and near-term revenue",open:false},
+    {key:"System Development",label:"System development",hint:"Improve Axiom's repeatable capabilities",open:false}
+  ];
+  const horizons=[["Now","Now"],["This Week","This week"],["Goal","Goals"]];
+  for(const lane of lanes){
+    const items=businessPriorities.filter(item=>String(item.priorityLane||"").trim()===lane.key);
+    const outer=document.createElement("details");
+    outer.className="priority-lane";
+    outer.open=lane.open;
+    const head=document.createElement("summary");
+    head.className="priority-lane-head";
+    head.innerHTML=`<span><strong>${esc(lane.label)}</strong><small>${esc(lane.hint)}</small></span><span class="priority-count">${items.length}</span>`;
+    outer.append(head);
+    const laneBody=document.createElement("div");
+    laneBody.className="priority-lane-body";
+    for(const [key,label] of horizons){
+      const scoped=items.filter(item=>String(item.horizon||"").toLowerCase()===key.toLowerCase());
+      if(!scoped.length) continue;
+      const group=document.createElement("section");
+      group.className="priority-group";
+      const title=document.createElement("h3");
+      title.className="priority-group-head";
+      title.textContent=label;
+      group.append(title);
+      const body=document.createElement("div");
+      body.className="priority-group-body";
+      for(const item of scoped){
+        const row=document.createElement("article");
+        row.className="priority-item";
+        const target=item.targetDate?`<span class="priority-date">${esc(item.targetDate)}</span>`:"";
+        row.innerHTML=`<div class="priority-title">${esc(item.name)}</div><div class="priority-next">${esc(item.nextAction||item.currentState||"")}</div><div class="priority-meta"><span>${esc(item.focus||"")}</span>${target}</div>`;
+        row.title=item.currentState||"";
+        body.append(row);
+      }
+      group.append(body);
+      laneBody.append(group);
+    }
+    outer.append(laneBody);
+    host.append(outer);
+  }
+  const unknown=businessPriorities.filter(item=>!lanes.some(l=>l.key===String(item.priorityLane||"").trim()));
+  if(unknown.length){
+    const notice=document.createElement("p");
+    notice.className="priority-unclassified";
+    notice.textContent=`${unknown.length} priority item(s) require a lane classification in AOB.`;
+    host.append(notice);
   }
 }
 function sourceLabel(source){
