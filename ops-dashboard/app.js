@@ -100,7 +100,7 @@ function renderBusinessPriorities(){
   if(!host) return;
   host.replaceChildren();
   const lanes=[
-    {key:"Business Operations",label:"Business operations",hint:"Cash exposure, customers, and near-term revenue",open:true},
+    {key:"Business Operations",label:"Business operations",hint:"Cash exposure, customers, and near-term revenue",open:false},
     {key:"System Development",label:"System development",hint:"Improve Axiom's repeatable capabilities",open:false}
   ];
   const horizons=[["Now","Now"],["This Week","This week"],["Goal","Goals"]];
