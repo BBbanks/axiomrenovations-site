@@ -99,30 +99,53 @@ function renderBusinessPriorities(){
   const host=q("#businessPriorities");
   if(!host) return;
   host.replaceChildren();
-  const groups=[["Now","Now"],["This Week","This week"],["Goal","Goals"]];
-  for(const [key,label] of groups){
-    const items=businessPriorities.filter(item=>String(item.horizon||"").toLowerCase()===key.toLowerCase());
-    const group=document.createElement("details");
-    group.className="priority-group";
-    const summary=document.createElement("summary");
-    summary.className="priority-group-head";
-    summary.innerHTML=`<span class="priority-label"><strong>${esc(label)}</strong><span class="priority-count">${items.length}</span></span><span class="priority-chevron" aria-hidden="true">⌄</span>`;
-    group.append(summary);
-    const body=document.createElement("div");
-    body.className="priority-group-body";
-    if(!items.length){
-      const empty=document.createElement("p");empty.className="priority-empty";empty.textContent="Nothing recorded.";body.append(empty);
+  const lanes=[
+    {key:"Business Operations",label:"Business operations",hint:"Cash exposure, customers, and near-term revenue",open:true},
+    {key:"System Development",label:"System development",hint:"Improve Axiom's repeatable capabilities",open:false}
+  ];
+  const horizons=[["Now","Now"],["This Week","This week"],["Goal","Goals"]];
+  for(const lane of lanes){
+    const items=businessPriorities.filter(item=>String(item.priorityLane||"").trim()===lane.key);
+    const outer=document.createElement("details");
+    outer.className="priority-lane";
+    outer.open=lane.open;
+    const head=document.createElement("summary");
+    head.className="priority-lane-head";
+    head.innerHTML=`<span><strong>${esc(lane.label)}</strong><small>${esc(lane.hint)}</small></span><span class="priority-count">${items.length}</span>`;
+    outer.append(head);
+    const laneBody=document.createElement("div");
+    laneBody.className="priority-lane-body";
+    for(const [key,label] of horizons){
+      const scoped=items.filter(item=>String(item.horizon||"").toLowerCase()===key.toLowerCase());
+      if(!scoped.length) continue;
+      const group=document.createElement("section");
+      group.className="priority-group";
+      const title=document.createElement("h3");
+      title.className="priority-group-head";
+      title.textContent=label;
+      group.append(title);
+      const body=document.createElement("div");
+      body.className="priority-group-body";
+      for(const item of scoped){
+        const row=document.createElement("article");
+        row.className="priority-item";
+        const target=item.targetDate?`<span class="priority-date">${esc(item.targetDate)}</span>`:"";
+        row.innerHTML=`<div class="priority-title">${esc(item.name)}</div><div class="priority-next">${esc(item.nextAction||item.currentState||"")}</div><div class="priority-meta"><span>${esc(item.focus||"")}</span>${target}</div>`;
+        row.title=item.currentState||"";
+        body.append(row);
+      }
+      group.append(body);
+      laneBody.append(group);
     }
-    for(const item of items){
-      const row=document.createElement("div");
-      row.className="priority-item";
-      const target=item.targetDate?`<span class="priority-date">${esc(item.targetDate)}</span>`:"";
-      row.innerHTML=`<div class="priority-title">${esc(item.name)}</div><div class="priority-next">${esc(item.nextAction||item.currentState||"")}</div><div class="priority-meta"><span>${esc(item.focus||"")}</span>${target}</div>`;
-      row.title=item.currentState||"";
-      body.append(row);
-    }
-    group.append(body);
-    host.append(group);
+    outer.append(laneBody);
+    host.append(outer);
+  }
+  const unknown=businessPriorities.filter(item=>!lanes.some(l=>l.key===String(item.priorityLane||"").trim()));
+  if(unknown.length){
+    const notice=document.createElement("p");
+    notice.className="priority-unclassified";
+    notice.textContent=`${unknown.length} priority item(s) require a lane classification in AOB.`;
+    host.append(notice);
   }
 }
 function sourceLabel(source){
