@@ -23,3 +23,17 @@
 .priority-empty{margin:9px 0 2px;color:var(--muted);font-size:11px}
 .priority-group-head:focus-visible{outline:3px solid #93c5fd;outline-offset:-3px}
 @media(max-width:760px){.priority-groups{grid-template-columns:1fr}.priority-panel-head .lead-channel-hint{display:none}}
+
+/* Business priority lanes: distinguish operating urgency from capability development. */
+.priority-groups{display:grid;gap:10px}
+.priority-lane{border:1px solid var(--border);background:#fff;border-radius:14px;overflow:hidden}
+.priority-lane-head{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;cursor:pointer}
+.priority-lane-head::-webkit-details-marker{display:none}
+.priority-lane-head strong{display:block;font-size:14px}
+.priority-lane-head small{display:block;margin-top:4px;color:var(--muted);font-size:12px;font-weight:400}
+.priority-lane-body{padding:0 14px 14px;display:grid;gap:12px}
+.priority-lane .priority-group{border-top:1px solid var(--border);padding-top:8px}
+.priority-lane .priority-group-head{font-size:11px;margin:3px 0 8px;color:#4b5563;letter-spacing:.07em}
+.priority-lane .priority-group-body{display:grid;gap:8px}
+.priority-unclassified{font-size:12px;color:#92400e;margin:8px 0}
+.priority-lane:focus-within{outline:2px solid #93c5fd;outline-offset:2px}
