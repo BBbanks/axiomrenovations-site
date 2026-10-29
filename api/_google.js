@@ -22,14 +22,16 @@ async function accessToken(){
   if(!r.ok) throw new Error("Google token exchange failed");
   const data=await r.json(); return data.access_token;
 }
-async function getBoardRows(){
+async function getRows(a1Range){
   const spreadsheetId=process.env.AXIOM_OPERATING_BOARD_SPREADSHEET_ID;
   if(!spreadsheetId) throw new Error("Operating Board spreadsheet id is not configured");
   const token=await accessToken();
-  const range=encodeURIComponent("'Operating Board'!A4:Y200");
+  const range=encodeURIComponent(a1Range);
   const url=`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?majorDimension=ROWS`;
   const r=await fetch(url,{headers:{authorization:`Bearer ${token}`}});
   if(!r.ok) throw new Error("Google Sheets read failed");
   const data=await r.json(); return data.values||[];
 }
-module.exports={getBoardRows};
+async function getBoardRows(){return getRows("'Operating Board'!A4:Y200")}
+async function getLeadSourceRows(){return getRows("'Lead Sources'!A1:F20")}
+module.exports={getBoardRows,getLeadSourceRows};

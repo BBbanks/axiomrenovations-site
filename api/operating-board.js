@@ -1,12 +1,12 @@
 const {isAuthorized}=require("./_auth");
-const {getBoardRows}=require("./_google");
+const {getBoardRows,getLeadSourceRows}=require("./_google");
 
 module.exports=async function handler(req,res){
   if(req.method!=="GET") return res.status(405).json({error:"Method not allowed"});
   if(!isAuthorized(req)) return res.status(401).json({error:"Authentication required"});
   try{
-    const rows=await getBoardRows();
-    if(rows.length<1) return res.status(200).json({matters:[]});
+    const [rows,sourceRows]=await Promise.all([getBoardRows(),getLeadSourceRows()]);
+    if(rows.length<1) return res.status(200).json({matters:[],leadSources:[]});
     const headers=rows[0].map(String);
     const pos=Object.fromEntries(headers.map((h,i)=>[h,i]));
     const cell=(row,name)=>String(row[pos[name]]??"").trim();
@@ -38,8 +38,19 @@ module.exports=async function handler(req,res){
       flexibility:cell(r,"Flexibility"),
       scheduleConstraint:cell(r,"Schedule Constraint")
     }));
+    const sourceHeaders=(sourceRows[0]||[]).map(String);
+    const sourcePos=Object.fromEntries(sourceHeaders.map((h,i)=>[h,i]));
+    const sourceCell=(row,name)=>String(row[sourcePos[name]]??"").trim();
+    const leadSources=sourceRows.slice(1).filter(r=>sourceCell(r,"Source")).map(r=>({
+      source:sourceCell(r,"Source"),
+      status:sourceCell(r,"Status"),
+      scheduledReactivation:sourceCell(r,"Scheduled Reactivation"),
+      note:sourceCell(r,"Evidence / Note"),
+      lastVerified:sourceCell(r,"Last Verified"),
+      serviceArea:sourceCell(r,"Service Area")
+    }));
     res.setHeader("Cache-Control","private, no-store");
-    return res.status(200).json({matters});
+    return res.status(200).json({matters,leadSources});
   }catch(err){
     return res.status(503).json({error:"Operating Board is not available"});
   }
