@@ -38,6 +38,7 @@
           <button type="button" class="chip" data-filter="lead">Leads</button>
           <button type="button" class="chip" data-filter="estimate">Estimates</button>
           <button type="button" class="chip" data-filter="job">Jobs</button>
+          <button type="button" class="chip" data-filter="future work">Future Work</button>
         </div>
       </div>
 
@@ -59,6 +60,11 @@
     <details id="leadsSection" class="board-section" open>
       <summary>Leads <span id="leadsSectionCount" class="section-count">0</span></summary>
       <div id="leadsCards" class="cards" aria-live="polite"></div>
+    </details>
+
+    <details id="futureSection" class="board-section">
+      <summary>Future Work <span id="futureSectionCount" class="section-count">0</span></summary>
+      <div id="futureCards" class="cards" aria-live="polite"></div>
     </details>
 
     <dialog id="detailDialog">
