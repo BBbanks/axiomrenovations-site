@@ -31,9 +31,9 @@
       <div class="filter-block">
         <span class="filter-label">View</span>
         <div class="filters" id="filters">
-          <button type="button" class="chip active" data-filter="attention">Attention</button>
+          <button type="button" class="chip" data-filter="attention">Attention</button>
           <button type="button" class="chip" data-filter="schedule">Schedule</button>
-          <button type="button" class="chip" data-filter="all">All</button>
+          <button type="button" class="chip active" data-filter="all">All</button>
           <button type="button" class="chip" data-filter="lead">Leads</button>
           <button type="button" class="chip" data-filter="estimate">Estimates</button>
           <button type="button" class="chip" data-filter="job">Jobs</button>
@@ -51,7 +51,14 @@
     </section>
 
     <p id="statusMessage" class="status" role="status"></p>
-    <section id="cards" class="cards" aria-live="polite"></section>
+    <details id="jobsSection" class="board-section">
+      <summary>Jobs <span id="jobsSectionCount" class="section-count">0</span></summary>
+      <div id="jobsCards" class="cards" aria-live="polite"></div>
+    </details>
+    <details id="leadsSection" class="board-section" open>
+      <summary>Leads <span id="leadsSectionCount" class="section-count">0</span></summary>
+      <div id="leadsCards" class="cards" aria-live="polite"></div>
+    </details>
 
     <dialog id="detailDialog">
       <form method="dialog" class="detail">
