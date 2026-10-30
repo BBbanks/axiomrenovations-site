@@ -27,11 +27,11 @@ function visibleMatters(){
 function isJob(m){
   const type=String(m.type||"").toLowerCase();
   const stage=String(m.stage||"").toLowerCase();
-  return type==="job"||/\\b(sold|scheduled|active|in progress|under contract)\\b/.test(stage);
+  return type==="job"||/\b(sold|scheduled|active|in progress|under contract)\b/.test(stage);
 }
 function isThumbtackPlaceholder(m){
   const name=String(m.name||"").trim().toLowerCase();
-  return /thumbtack/.test(name)&&!String(m.nextAction||"").trim()&&!String(m.currentState||"").trim();
+  return /thumbtack/.test(name);
 }
 function renderGroup(id,items){
   const target=q(id);target.replaceChildren();
