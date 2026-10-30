@@ -1,21 +1,38 @@
 {
-  "rewrites": [
-    { "source": "/ops", "destination": "/ops-dashboard/index.html" },
-    { "source": "/ops/", "destination": "/ops-dashboard/index.html" }
-  ],
   "headers": [
     {
       "source": "/api/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "private, no-store" },
-        { "key": "X-Content-Type-Options", "value": "nosniff" }
+        {
+          "key": "Cache-Control",
+          "value": "private, no-store"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        }
       ]
     },
     {
       "source": "/ops-dashboard/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "no-store, max-age=0" }
+        {
+          "key": "Cache-Control",
+          "value": "no-store, max-age=0"
+        }
       ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/ops",
+      "destination": "/ops-dashboard/",
+      "permanent": false
+    },
+    {
+      "source": "/ops/",
+      "destination": "/ops-dashboard/",
+      "permanent": false
     }
   ]
 }
