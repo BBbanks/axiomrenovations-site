@@ -1,8 +1,8 @@
 const API_URL="/api/operating-board";
-let matters=[],activeFilter="attention";
+let matters=[];
 
 const q=s=>document.querySelector(s);
-const cards=q("#cards"),status=q("#statusMessage"),ownerFilter=q("#ownerFilter");
+const status=q("#statusMessage"),ownerFilter=q("#ownerFilter");
 
 async function loadBoard(){
   status.textContent="Loading operating state…";
@@ -20,26 +20,36 @@ async function loadBoard(){
   }
   render();
 }
-function filtered(){
+function visibleMatters(){
   const owner=ownerFilter.value;
-  return matters.filter(m=>{
-    const typeOk=activeFilter==="all"||activeFilter==="attention"||m.type===activeFilter;
-    const attentionOk=activeFilter!=="attention"||["high","medium"].includes(m.attention);
-    const ownerOk=owner==="all"||String(m.owner||"").includes(owner);
-    return typeOk&&attentionOk&&ownerOk;
-  });
+  return matters.filter(m=>owner==="all"||String(m.owner||"").includes(owner));
+}
+function isJob(m){
+  const type=String(m.type||"").toLowerCase();
+  const stage=String(m.stage||"").toLowerCase();
+  return type==="job"||/\\b(sold|scheduled|active|in progress|under contract)\\b/.test(stage);
+}
+function isThumbtackPlaceholder(m){
+  const name=String(m.name||"").trim().toLowerCase();
+  return /thumbtack/.test(name)&&!String(m.nextAction||"").trim()&&!String(m.currentState||"").trim();
+}
+function renderGroup(id,items){
+  const target=q(id);target.replaceChildren();
+  if(!items.length){const empty=document.createElement("p");empty.className="status";empty.textContent="No matters in this section.";target.append(empty);}
+  items.forEach(m=>target.append(makeCard(m)));
 }
 function render(){
-  const list=filtered();
-  cards.replaceChildren();
-  if(!list.length){
-    const empty=document.createElement("p");empty.className="status";empty.textContent="No matters match this view.";cards.append(empty);
-  }
-  for(const m of list) cards.append(makeCard(m));
-  q("#attentionCount").textContent=matters.filter(m=>["high","medium"].includes(m.attention)).length;
-  q("#leadCount").textContent=matters.filter(m=>m.type==="lead").length;
-  q("#estimateCount").textContent=matters.filter(m=>m.type==="estimate").length;
-  q("#jobCount").textContent=matters.filter(m=>m.type==="job").length;
+  const list=visibleMatters().filter(m=>!isThumbtackPlaceholder(m));
+  const jobs=list.filter(isJob);
+  const leads=list.filter(m=>!isJob(m));
+  renderGroup("#jobsCards",jobs);
+  renderGroup("#leadsCards",leads);
+  q("#jobsSectionCount").textContent=jobs.length;
+  q("#leadsSectionCount").textContent=leads.length;
+  q("#attentionCount").textContent=list.filter(m=>["high","medium"].includes(m.attention)).length;
+  q("#leadCount").textContent=leads.filter(m=>m.type==="lead").length;
+  q("#estimateCount").textContent=leads.filter(m=>m.type==="estimate").length;
+  q("#jobCount").textContent=jobs.length;
 }
 function makeCard(m){
   const b=document.createElement("button");b.type="button";b.className="card";
@@ -62,12 +72,6 @@ function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&l
 function labelType(t){return ({lead:"Lead",estimate:"Estimate",job:"Job"}[t]||"Matter")}
 function attentionLabel(a){return a==="high"?"High attention":a==="medium"?"Active":"Routine"}
 
-q("#filters").addEventListener("click",e=>{
-  const btn=e.target.closest("[data-filter]");if(!btn)return;
-  activeFilter=btn.dataset.filter;
-  document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("active",x===btn));
-  render();
-});
 ownerFilter.addEventListener("change",render);
 q("#refreshBtn").addEventListener("click",loadBoard);
 if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
