@@ -44,8 +44,8 @@ function queueNumber(v){
 function noResponse(m){
   if(isJob(m)||/closed|disqualified/i.test(String(m.stage||""))) return false;
   const state=String(m.currentState||"");
-  return /\\b(?:has not responded|have not responded|not responded|no customer response|no reply|unresponsive|customer did not respond)\\b/i.test(state)
-    && !/\\b(?:no.response exception resolved|response now received)\\b/i.test(state);
+  return /\b(?:has not responded|have not responded|not responded|no customer response|no reply|unresponsive|customer did not respond)\b/i.test(state)
+    && !/\b(?:no.response exception resolved|response now received)\b/i.test(state);
 }
 function filtered(){
   const list=matters.filter(m=>{
