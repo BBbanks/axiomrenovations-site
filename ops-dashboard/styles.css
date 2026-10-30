@@ -10,3 +10,4 @@
 .board-section[open]>summary:before{content:"▾"}
 .board-section .cards{padding:0 14px 14px}
 .section-count{margin-left:auto;border-radius:999px;background:#f3f4f6;padding:4px 10px;font-size:13px;color:var(--muted)}
+\n.response-flag{align-self:flex-start;margin-top:9px;padding:6px 9px;border-radius:8px;background:#fff3cd;color:#8a5300;border:1px solid #f6da85;font-size:12px;font-weight:700}\n
