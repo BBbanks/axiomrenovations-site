@@ -1,9 +1,9 @@
 const API_URL="/api/operating-board";
 const VERSION_URL="/api/version";
-let matters=[],activeFilter="attention",activeOwner="all";
+let matters=[],activeFilter="all",activeOwner="all";
 
 const q=s=>document.querySelector(s);
-const cards=q("#cards"),status=q("#statusMessage");
+const status=q("#statusMessage");
 
 async function loadVersion(){
   const el=q("#buildVersion");
@@ -53,17 +53,38 @@ function filtered(){
   }
   return list;
 }
-function render(){
-  const list=filtered();
-  cards.replaceChildren();
+function isJob(m){
+  const type=String(m.type||"").toLowerCase();
+  const stage=String(m.stage||"").toLowerCase();
+  return type==="job"||/\b(sold|scheduled|active|in progress|under contract)\b/.test(stage);
+}
+function isNonActionableThumbtack(m){
+  const name=String(m.name||"").trim();
+  return /thumbtack/i.test(name) && !String(m.phone||m.email||m.jobAddress||"").trim();
+}
+function renderSection(selector,list){
+  const container=q(selector);
+  container.replaceChildren();
   if(!list.length){
-    const empty=document.createElement("p");empty.className="status";empty.textContent="No matters match this view.";cards.append(empty);
-  }
-  for(const m of list) cards.append(makeCard(m));
-  q("#attentionCount").textContent=matters.filter(m=>["high","medium"].includes(m.attention)).length;
-  q("#leadCount").textContent=matters.filter(m=>m.type==="lead").length;
-  q("#estimateCount").textContent=matters.filter(m=>m.type==="estimate").length;
-  q("#jobCount").textContent=matters.filter(m=>m.type==="job").length;
+    const empty=document.createElement("p");
+    empty.className="status";
+    empty.textContent="No matters match this view.";
+    container.append(empty);
+  } else for(const m of list) container.append(makeCard(m));
+}
+function render(){
+  const list=filtered().filter(m=>!isNonActionableThumbtack(m));
+  const jobs=list.filter(isJob);
+  const leads=list.filter(m=>!isJob(m));
+  renderSection("#jobsCards",jobs);
+  renderSection("#leadsCards",leads);
+  q("#jobsSectionCount").textContent=jobs.length;
+  q("#leadsSectionCount").textContent=leads.length;
+  const visible=matters.filter(m=>!isNonActionableThumbtack(m));
+  q("#attentionCount").textContent=visible.filter(m=>["high","medium"].includes(m.attention)).length;
+  q("#leadCount").textContent=visible.filter(m=>!isJob(m)&&m.type==="lead").length;
+  q("#estimateCount").textContent=visible.filter(m=>!isJob(m)&&m.type==="estimate").length;
+  q("#jobCount").textContent=visible.filter(isJob).length;
 }
 function sourceLabel(source){
   const s=String(source||"").trim();
