@@ -40,13 +40,21 @@ function queueNumber(v){
   const n=Number(v);
   return Number.isFinite(n)&&n>0?n:Number.POSITIVE_INFINITY;
 }
+// Only explicit evidence of an unanswered outreach earns this flag.
+function noResponse(m){
+  if(isJob(m)||/closed|disqualified/i.test(String(m.stage||""))) return false;
+  const state=String(m.currentState||"");
+  return /\b(?:has not responded|have not responded|not responded|no customer response|no reply|unresponsive|customer did not respond)\b/i.test(state)
+    && !/\b(?:no.response exception resolved|response now received)\b/i.test(state);
+}
 function filtered(){
   const list=matters.filter(m=>{
-    const typeOk=activeFilter==="all"||activeFilter==="attention"||activeFilter==="schedule"||m.type===activeFilter;
+    const typeOk=activeFilter==="all"||activeFilter==="attention"||activeFilter==="schedule"||activeFilter==="no-response"||m.type===activeFilter;
+    const responseOk=activeFilter!=="no-response"||noResponse(m);
     const attentionOk=activeFilter!=="attention"||["high","medium"].includes(m.attention);
     const scheduleOk=activeFilter!=="schedule"||(m.scheduleState&&m.scheduleState.toLowerCase()!=="complete");
     const ownerOk=activeOwner==="all"||String(m.owner||"").includes(activeOwner);
-    return typeOk&&attentionOk&&scheduleOk&&ownerOk;
+    return typeOk&&responseOk&&attentionOk&&scheduleOk&&ownerOk;
   });
   if(activeFilter==="schedule"){
     list.sort((a,b)=>queueNumber(a.queuePosition)-queueNumber(b.queuePosition)||String(a.name).localeCompare(String(b.name)));
@@ -82,6 +90,7 @@ function render(){
   q("#leadsSectionCount").textContent=leads.length;
   const visible=matters.filter(m=>!isNonActionableNextdoor(m));
   q("#attentionCount").textContent=visible.filter(m=>["high","medium"].includes(m.attention)).length;
+  q("#noResponseCount").textContent=visible.filter(noResponse).length;
   q("#leadCount").textContent=visible.filter(m=>!isJob(m)&&m.type==="lead").length;
   q("#estimateCount").textContent=visible.filter(m=>!isJob(m)&&m.type==="estimate").length;
   q("#jobCount").textContent=visible.filter(isJob).length;
@@ -106,7 +115,7 @@ function makeCard(m){
   const b=document.createElement("button");b.type="button";b.className="card";
   const contact=[m.phone,m.jobAddress].filter(Boolean).join(" · ");
   const source=sourceLabel(m.leadSource);
-  b.innerHTML=`<div class="card-head"><div><strong>${esc(m.name)}</strong><div class="meta">${esc(m.area||"")}</div></div><span class="badge">${esc(labelType(m.type))}</span></div>${source?`<div class="source-badge source-${esc(source.toLowerCase())}">${esc(source)}</div>`:""}${contact?`<div class="contact-preview">${esc(contact)}</div>`:""}${activeFilter==="schedule"?schedulePreview(m):""}<div class="stage">${esc(m.stage||"")}</div><div class="state">${esc(m.currentState||"")}</div><div class="card-foot"><span>${esc(m.owner||"")}</span><span class="attention-${esc(m.attention||"low")}">${esc(attentionLabel(m.attention))}</span></div>`;
+  b.innerHTML=`<div class="card-head"><div><strong>${esc(m.name)}</strong><div class="meta">${esc(m.area||"")}</div></div><span class="badge">${esc(labelType(m.type))}</span></div>${source?`<div class="source-badge source-${esc(source.toLowerCase())}">${esc(source)}</div>`:""}${noResponse(m)?`<div class="response-flag">No customer response recorded</div>`:""}${contact?`<div class="contact-preview">${esc(contact)}</div>`:""}${activeFilter==="schedule"?schedulePreview(m):""}<div class="stage">${esc(m.stage||"")}</div><div class="state">${esc(m.currentState||"")}</div><div class="card-foot"><span>${esc(m.owner||"")}</span><span class="attention-${esc(m.attention||"low")}">${esc(attentionLabel(m.attention))}</span></div>`;
   b.addEventListener("click",()=>showDetail(m));return b;
 }
 function shown(v,fallback="Not yet recorded"){return String(v||"").trim()||fallback}
