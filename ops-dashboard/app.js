@@ -58,9 +58,9 @@ function isJob(m){
   const stage=String(m.stage||"").toLowerCase();
   return type==="job"||/\b(sold|scheduled|active|in progress|under contract)\b/.test(stage);
 }
-function isNonActionableThumbtack(m){
+function isNonActionableNextdoor(m){
   const name=String(m.name||"").trim();
-  return /thumbtack/i.test(name) && !String(m.phone||m.email||m.jobAddress||"").trim();
+  return /nextdoor/i.test(name) && !String(m.phone||m.email||m.jobAddress||"").trim();
 }
 function renderSection(selector,list){
   const container=q(selector);
@@ -73,14 +73,14 @@ function renderSection(selector,list){
   } else for(const m of list) container.append(makeCard(m));
 }
 function render(){
-  const list=filtered().filter(m=>!isNonActionableThumbtack(m));
+  const list=filtered().filter(m=>!isNonActionableNextdoor(m));
   const jobs=list.filter(isJob);
   const leads=list.filter(m=>!isJob(m));
   renderSection("#jobsCards",jobs);
   renderSection("#leadsCards",leads);
   q("#jobsSectionCount").textContent=jobs.length;
   q("#leadsSectionCount").textContent=leads.length;
-  const visible=matters.filter(m=>!isNonActionableThumbtack(m));
+  const visible=matters.filter(m=>!isNonActionableNextdoor(m));
   q("#attentionCount").textContent=visible.filter(m=>["high","medium"].includes(m.attention)).length;
   q("#leadCount").textContent=visible.filter(m=>!isJob(m)&&m.type==="lead").length;
   q("#estimateCount").textContent=visible.filter(m=>!isJob(m)&&m.type==="estimate").length;
