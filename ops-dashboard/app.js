@@ -42,11 +42,13 @@ function queueNumber(v){
 }
 // Only explicit evidence of an unanswered outreach earns this flag.
 function noResponse(m){
-  if(isJob(m)||/closed|disqualified/i.test(String(m.stage||""))) return false;
+  if(isJob(m)||isFuture(m)||/closed|disqualified/i.test(String(m.stage||""))) return false;
   const state=String(m.currentState||"");
   return /\b(?:has not responded|have not responded|not responded|no customer response|no reply|unresponsive|customer did not respond)\b/i.test(state)
     && !/\b(?:no.response exception resolved|response now received)\b/i.test(state);
 }
+function isFuture(m){return String(m.type||"").toLowerCase()==="future work";}
+function isInactive(m){return /closed lost|disqualified|credit denied/i.test(String(m.stage||""));}
 function filtered(){
   const list=matters.filter(m=>{
     const typeOk=activeFilter==="all"||activeFilter==="attention"||activeFilter==="schedule"||activeFilter==="no-response"||m.type===activeFilter;
@@ -81,17 +83,20 @@ function renderSection(selector,list){
   } else for(const m of list) container.append(makeCard(m));
 }
 function render(){
-  const list=filtered().filter(m=>!isNonActionableNextdoor(m));
+  const list=filtered().filter(m=>!isNonActionableNextdoor(m)&&!isInactive(m));
   const jobs=list.filter(isJob);
-  const leads=list.filter(m=>!isJob(m));
+  const future=list.filter(isFuture);
+  const leads=list.filter(m=>!isJob(m)&&!isFuture(m));
   renderSection("#jobsCards",jobs);
   renderSection("#leadsCards",leads);
+  renderSection("#futureCards",future);
   q("#jobsSectionCount").textContent=jobs.length;
   q("#leadsSectionCount").textContent=leads.length;
-  const visible=matters.filter(m=>!isNonActionableNextdoor(m));
+  q("#futureSectionCount").textContent=future.length;
+  const visible=matters.filter(m=>!isNonActionableNextdoor(m)&&!isInactive(m));
   q("#attentionCount").textContent=visible.filter(m=>["high","medium"].includes(m.attention)).length;
   q("#noResponseCount").textContent=visible.filter(noResponse).length;
-  q("#leadCount").textContent=visible.filter(m=>!isJob(m)&&m.type==="lead").length;
+  q("#leadCount").textContent=visible.filter(m=>!isJob(m)&&!isFuture(m)&&m.type==="lead").length;
   q("#estimateCount").textContent=visible.filter(m=>!isJob(m)&&m.type==="estimate").length;
   q("#jobCount").textContent=visible.filter(isJob).length;
 }
@@ -146,7 +151,7 @@ function showDetail(m){
   q("#detailDialog").showModal();
 }
 function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function labelType(t){return ({lead:"Lead",estimate:"Estimate",job:"Job"}[t]||"Matter")}
+function labelType(t){return ({lead:"Lead",estimate:"Estimate",job:"Job","future work":"Future Work"}[t]||"Matter")}
 function attentionLabel(a){return a==="high"?"High attention":a==="medium"?"Active":"Routine"}
 
 q("#filters").addEventListener("click",e=>{
