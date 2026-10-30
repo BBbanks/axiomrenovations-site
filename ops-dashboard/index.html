@@ -27,24 +27,19 @@
     </section>
 
     <section class="controls" aria-label="Board filters">
-      <div class="filters" id="filters">
-        <button type="button" class="chip active" data-filter="attention">Attention</button>
-        <button type="button" class="chip" data-filter="all">All</button>
-        <button type="button" class="chip" data-filter="lead">Leads</button>
-        <button type="button" class="chip" data-filter="estimate">Estimates</button>
-        <button type="button" class="chip" data-filter="job">Jobs</button>
-      </div>
       <label class="owner-filter">Owner
-        <select id="ownerFilter">
-          <option value="all">Everyone</option>
-          <option value="Brandon">Brandon</option>
-          <option value="Nicole">Nicole</option>
-        </select>
+        <select id="ownerFilter"><option value="all">Everyone</option><option value="Brandon">Brandon</option><option value="Nicole">Nicole</option></select>
       </label>
     </section>
-
     <p id="statusMessage" class="status" role="status"></p>
-    <section id="cards" class="cards" aria-live="polite"></section>
+    <details id="jobsSection" class="board-section">
+      <summary>Jobs <span id="jobsSectionCount" class="section-count">0</span></summary>
+      <div id="jobsCards" class="cards"></div>
+    </details>
+    <details id="leadsSection" class="board-section" open>
+      <summary>Leads <span id="leadsSectionCount" class="section-count">0</span></summary>
+      <div id="leadsCards" class="cards"></div>
+    </details>
 
     <dialog id="detailDialog">
       <form method="dialog" class="detail">
