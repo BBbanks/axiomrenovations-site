@@ -48,6 +48,7 @@ function noResponse(m){
     && !/\b(?:no.response exception resolved|response now received)\b/i.test(state);
 }
 function isFuture(m){return String(m.type||"").toLowerCase()==="future work";}
+function isInactive(m){return /closed lost|disqualified|credit denied/i.test(String(m.stage||""));}
 function filtered(){
   const list=matters.filter(m=>{
     const typeOk=activeFilter==="all"||activeFilter==="attention"||activeFilter==="schedule"||activeFilter==="no-response"||m.type===activeFilter;
@@ -82,7 +83,7 @@ function renderSection(selector,list){
   } else for(const m of list) container.append(makeCard(m));
 }
 function render(){
-  const list=filtered().filter(m=>!isNonActionableNextdoor(m));
+  const list=filtered().filter(m=>!isNonActionableNextdoor(m)&&!isInactive(m));
   const jobs=list.filter(isJob);
   const future=list.filter(isFuture);
   const leads=list.filter(m=>!isJob(m)&&!isFuture(m));
@@ -92,7 +93,7 @@ function render(){
   q("#jobsSectionCount").textContent=jobs.length;
   q("#leadsSectionCount").textContent=leads.length;
   q("#futureSectionCount").textContent=future.length;
-  const visible=matters.filter(m=>!isNonActionableNextdoor(m));
+  const visible=matters.filter(m=>!isNonActionableNextdoor(m)&&!isInactive(m));
   q("#attentionCount").textContent=visible.filter(m=>["high","medium"].includes(m.attention)).length;
   q("#noResponseCount").textContent=visible.filter(noResponse).length;
   q("#leadCount").textContent=visible.filter(m=>!isJob(m)&&!isFuture(m)&&m.type==="lead").length;
