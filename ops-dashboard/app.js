@@ -43,13 +43,18 @@ function queueNumber(v){
   const n=Number(v);
   return Number.isFinite(n)&&n>0?n:Number.POSITIVE_INFINITY;
 }
-// Only explicit evidence of an unanswered outreach earns this flag.
-function noResponse(m){
-  if(isJob(m)||isFuture(m)||/closed|disqualified/i.test(String(m.stage||""))) return false;
+// Lead triage is evidence-based and never changes the matter's section.
+function leadContactState(m){
+  if(String(m.type||"").toLowerCase()!=="lead" || /closed|disqualified|credit denied/i.test(String(m.stage||""))) return "";
   const state=String(m.currentState||"");
-  return /\b(?:has not responded|have not responded|not responded|no customer response|no reply|unresponsive|customer did not respond)\b/i.test(state)
-    && !/\b(?:no.response exception resolved|response now received)\b/i.test(state);
+  // An unsuccessful contact attempt or expressly unestablished contact needs attention.
+  if(/\b(?:has not responded|have not responded|not responded|no customer response|no reply|unresponsive|customer did not respond|contact not confirmed|no contact confirmed|not established contact|no established contact|or established contact|no direct contact)\b/i.test(state)
+    && !/\b(?:response now received|no.response exception resolved)\b/i.test(state)) return "red";
+  // A live conversation, without a confirmed start or award, remains in follow-up.
+  if(String(m.stage||"").toLowerCase()==="contacted") return "yellow";
+  return "";
 }
+function noResponse(m){return leadContactState(m)==="red";}
 function isFuture(m){return String(m.type||"").toLowerCase()==="future work";}
 function isInactive(m){return /closed lost|disqualified|credit denied/i.test(String(m.stage||""));}
 function filtered(){
@@ -145,12 +150,13 @@ function schedulePreview(m){
 }
 function makeCard(m){
   const b=document.createElement("button");b.type="button";
-  const unanswered=noResponse(m);
-  b.className=unanswered?"card card-unresponsive":"card";
-  if(unanswered) b.setAttribute("data-response-status","unresponsive");
+  const contactState=leadContactState(m);
+  const unanswered=contactState==="red";
+  b.className=contactState==="red"?"card card-unresponsive":contactState==="yellow"?"card card-follow-up":"card";
+  if(contactState) b.setAttribute("data-response-status",contactState);
   const contact=[m.phone,m.jobAddress].filter(Boolean).join(" · ");
   const source=sourceLabel(m.leadSource);
-  b.innerHTML=`<div class="card-head"><div><strong>${esc(m.name)}</strong><div class="meta">${esc(m.area||"")}</div></div><span class="badge">${esc(labelType(m.type))}</span></div>${source?`<div class="source-badge source-${esc(source.toLowerCase())}">${esc(source)}</div>`:""}${unanswered?`<div class="response-flag">No customer response recorded</div>`:""}${contact?`<div class="contact-preview">${esc(contact)}</div>`:""}${activeFilter==="schedule"?schedulePreview(m):""}<div class="stage">${esc(m.stage||"")}</div><div class="state">${esc(m.currentState||"")}</div><div class="card-foot"><span>${esc(m.owner||"")}</span><span class="attention-${esc(m.attention||"low")}">${esc(attentionLabel(m.attention))}</span></div>`;
+  b.innerHTML=`<div class="card-head"><div><strong>${esc(m.name)}</strong><div class="meta">${esc(m.area||"")}</div></div><span class="badge">${esc(labelType(m.type))}</span></div>${source?`<div class="source-badge source-${esc(source.toLowerCase())}">${esc(source)}</div>`:""}${unanswered?`<div class="response-flag">No established customer contact / response</div>`:""}${contactState==="yellow"?`<div class="follow-up-flag">Contacted · Follow-up pending</div>`:""}${contact?`<div class="contact-preview">${esc(contact)}</div>`:""}${activeFilter==="schedule"?schedulePreview(m):""}<div class="stage">${esc(m.stage||"")}</div><div class="state">${esc(m.currentState||"")}</div><div class="card-foot"><span>${esc(m.owner||"")}</span><span class="attention-${esc(m.attention||"low")}">${esc(attentionLabel(m.attention))}</span></div>`;
   b.addEventListener("click",()=>showDetail(m));return b;
 }
 function shown(v,fallback="Not yet recorded"){return String(v||"").trim()||fallback}
