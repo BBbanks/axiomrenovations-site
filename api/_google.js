@@ -32,4 +32,14 @@ async function getBoardRows(){
   if(!r.ok) throw new Error("Google Sheets read failed");
   const data=await r.json(); return data.values||[];
 }
-module.exports={getBoardRows};
+async function getLeadSourceRows(){
+  const spreadsheetId=process.env.AXIOM_OPERATING_BOARD_SPREADSHEET_ID;
+  if(!spreadsheetId) throw new Error("Operating Board spreadsheet id is not configured");
+  const token=await accessToken();
+  const range=encodeURIComponent("'Lead Sources'!A1:F20");
+  const url=`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?majorDimension=ROWS`;
+  const r=await fetch(url,{headers:{authorization:`Bearer ${token}`}});
+  if(!r.ok) throw new Error("Lead Sources read failed");
+  const data=await r.json();return data.values||[];
+}
+module.exports={getBoardRows,getLeadSourceRows};
