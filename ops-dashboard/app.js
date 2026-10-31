@@ -1,6 +1,6 @@
 const API_URL="/api/operating-board";
 const VERSION_URL="/api/version";
-let matters=[],activeFilter="all",activeOwner="all";
+let matters=[],leadSources=[],activeFilter="all",activeOwner="all";
 
 const q=s=>document.querySelector(s);
 const status=q("#statusMessage");
@@ -29,12 +29,15 @@ async function loadBoard(){
     const payload=await res.json();
     matters=Array.isArray(payload)?payload:payload.matters;
     if(!Array.isArray(matters)) throw new Error("Invalid board response");
+    leadSources=Array.isArray(payload.leadSources)?payload.leadSources:[];
     status.textContent="";
   }catch(err){
     matters=[];
+    leadSources=[];
     status.textContent="Live operating data is temporarily unavailable.";
   }
   render();
+  renderLeadSources();
 }
 function queueNumber(v){
   const n=Number(v);
@@ -99,6 +102,30 @@ function render(){
   q("#leadCount").textContent=visible.filter(m=>!isJob(m)&&!isFuture(m)&&m.type==="lead").length;
   q("#estimateCount").textContent=visible.filter(m=>!isJob(m)&&m.type==="estimate").length;
   q("#jobCount").textContent=visible.filter(isJob).length;
+}
+function renderLeadSources(){
+  const host=q("#leadSources");
+  if(!host) return;
+  host.replaceChildren();
+  if(!leadSources.length){
+    const empty=document.createElement("div");
+    empty.className="lead-source-empty";
+    empty.textContent="Lead service status is temporarily unavailable.";
+    host.append(empty);
+    return;
+  }
+  for(const item of leadSources){
+    const card=document.createElement("article");
+    card.className="lead-source-card";
+    const state=String(item.status||"Unknown").trim();
+    const stateClass=/^active$/i.test(state)?"active":/^paused/i.test(state)?"paused":"unknown";
+    const activation=item.scheduledReactivation?`<div class="lead-reactivation"><span>Scheduled restart</span><strong>${esc(item.scheduledReactivation)}</strong></div>`:"";
+    const serviceArea=item.serviceArea?`<div class="lead-reactivation"><span>Service area</span><strong>${esc(item.serviceArea)}</strong></div>`:"";
+    const verified=item.lastVerified?`<div class="lead-verified">Last verified ${esc(item.lastVerified)}</div>`:"";
+    card.innerHTML=`<div class="lead-source-top"><strong>${esc(item.source||"Lead service")}</strong><span class="lead-state lead-state-${stateClass}">${esc(state)}</span></div>${activation}${serviceArea}${verified}`;
+    if(item.note) card.title=item.note;
+    host.append(card);
+  }
 }
 function sourceLabel(source){
   const s=String(source||"").trim();
