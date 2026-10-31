@@ -51,8 +51,7 @@ function leadContactState(m){
   if(/\b(?:has not responded|have not responded|not responded|no customer response|no reply|unresponsive|customer did not respond|contact not confirmed|no contact confirmed|not established contact|no established contact|or established contact|no direct contact)\b/i.test(state)
     && !/\b(?:response now received|no.response exception resolved)\b/i.test(state)) return "red";
   // A live conversation, without a confirmed start or award, remains in follow-up.
-  if(String(m.stage||"").toLowerCase()==="contacted" &&
-     /\b(?:direct conversation|has been contacted|customer stated|customer said|awaiting|follow.up|waiting on|asked whether)\b/i.test(state)) return "yellow";
+  if(String(m.stage||"").toLowerCase()==="contacted") return "yellow";
   return "";
 }
 function noResponse(m){return leadContactState(m)==="red";}
