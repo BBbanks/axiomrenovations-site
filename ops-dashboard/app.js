@@ -183,7 +183,19 @@ function attentionLabel(a){return a==="high"?"High attention":a==="medium"?"Acti
 
 q("#filters").addEventListener("click",e=>{
   const btn=e.target.closest("[data-filter]");if(!btn)return;
-  activeFilter=btn.dataset.filter;
+  const view=btn.dataset.filter;
+  // Type shortcuts navigate to a permanent section; they never reclassify cards.
+  const sectionByType={job:"#jobsSection",lead:"#leadsSection",estimate:"#leadsSection","future work":"#futureSection"};
+  if(sectionByType[view]){
+    activeFilter="all";
+    document.querySelectorAll("#filters .chip").forEach(x=>x.classList.toggle("active",x.dataset.filter==="all"));
+    render();
+    const section=q(sectionByType[view]);
+    section.open=true;
+    section.scrollIntoView({behavior:"smooth",block:"start"});
+    return;
+  }
+  activeFilter=view;
   document.querySelectorAll("#filters .chip").forEach(x=>x.classList.toggle("active",x===btn));
   render();
 });
