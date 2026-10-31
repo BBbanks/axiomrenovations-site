@@ -144,10 +144,13 @@ function schedulePreview(m){
   return `<div class="schedule-preview">${parts.join(" · ")}</div>`;
 }
 function makeCard(m){
-  const b=document.createElement("button");b.type="button";b.className=noResponse(m)?"card card-unresponsive":"card";
+  const b=document.createElement("button");b.type="button";
+  const unanswered=noResponse(m);
+  b.className=unanswered?"card card-unresponsive":"card";
+  if(unanswered) b.setAttribute("data-response-status","unresponsive");
   const contact=[m.phone,m.jobAddress].filter(Boolean).join(" · ");
   const source=sourceLabel(m.leadSource);
-  b.innerHTML=`<div class="card-head"><div><strong>${esc(m.name)}</strong><div class="meta">${esc(m.area||"")}</div></div><span class="badge">${esc(labelType(m.type))}</span></div>${source?`<div class="source-badge source-${esc(source.toLowerCase())}">${esc(source)}</div>`:""}${noResponse(m)?`<div class="response-flag">No customer response recorded</div>`:""}${contact?`<div class="contact-preview">${esc(contact)}</div>`:""}${activeFilter==="schedule"?schedulePreview(m):""}<div class="stage">${esc(m.stage||"")}</div><div class="state">${esc(m.currentState||"")}</div><div class="card-foot"><span>${esc(m.owner||"")}</span><span class="attention-${esc(m.attention||"low")}">${esc(attentionLabel(m.attention))}</span></div>`;
+  b.innerHTML=`<div class="card-head"><div><strong>${esc(m.name)}</strong><div class="meta">${esc(m.area||"")}</div></div><span class="badge">${esc(labelType(m.type))}</span></div>${source?`<div class="source-badge source-${esc(source.toLowerCase())}">${esc(source)}</div>`:""}${unanswered?`<div class="response-flag">No customer response recorded</div>`:""}${contact?`<div class="contact-preview">${esc(contact)}</div>`:""}${activeFilter==="schedule"?schedulePreview(m):""}<div class="stage">${esc(m.stage||"")}</div><div class="state">${esc(m.currentState||"")}</div><div class="card-foot"><span>${esc(m.owner||"")}</span><span class="attention-${esc(m.attention||"low")}">${esc(attentionLabel(m.attention))}</span></div>`;
   b.addEventListener("click",()=>showDetail(m));return b;
 }
 function shown(v,fallback="Not yet recorded"){return String(v||"").trim()||fallback}
