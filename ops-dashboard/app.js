@@ -68,6 +68,12 @@ function filtered(){
   });
   if(activeFilter==="schedule"){
     list.sort((a,b)=>queueNumber(a.queuePosition)-queueNumber(b.queuePosition)||String(a.name).localeCompare(String(b.name)));
+  } else {
+    // Display most recently updated matters first; do not reorder canonical Sheet rows.
+    // For matching or missing dates, later appended board entries appear first.
+    const sourceOrder=new Map(matters.map((matter,index)=>[matter,index]));
+    const dateKey=m=>/^\d{4}-\d{2}-\d{2}$/.test(String(m.lastUpdated||""))?m.lastUpdated:"";
+    list.sort((a,b)=>dateKey(b).localeCompare(dateKey(a))||sourceOrder.get(b)-sourceOrder.get(a));
   }
   return list;
 }
